@@ -118,6 +118,33 @@ header .icon-menu i{
   text-decoration: underline;
 }
 
+/* container mobile */
+#container{
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 0 2.4rem;
+}
+
+#container .cabecalho-img{
+  max-width: 60rem;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding-top: 3.2rem;
+}
+
+#container .cabecalho-img img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 @media (min-width: 375px) {
   header nav{
     display: none;
