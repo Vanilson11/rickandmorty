@@ -35,8 +35,14 @@ header{
   padding: .7rem 2.4rem;
 
   box-shadow: 0 .2rem .2rem .2rem rgba(0, 0, 0, 0.123);
+}
 
-  position: relative;
+header .header-wrapper{
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 header .logo{
@@ -69,21 +75,18 @@ header .icon-menu i{
   cursor: pointer;
 }
 
-/*navbar*/
-
-header nav{
-  display: flex;
+/*navbar mobile*/
+#app .header-mobile{
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 4.8rem;
 
-  position: absolute;
-  top: 10.8rem;
-  left: 21rem;
+  margin-top: 4.8rem;
 }
 
-header nav a{
+#app .header-mobile a{
   font-family: var(--ff-principal);
   font-size: 2.4rem;
   font-weight: bold;
@@ -91,12 +94,46 @@ header nav a{
   text-decoration: none;
 }
 
-header nav a:hover{
+#app nav.header-mobile a:hover{
+  text-decoration: underline;
+}
+
+/*header desktop*/
+.header-wrapper .header-desktop{
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+}
+
+.header-wrapper .header-desktop a{
+  font-family: var(--ff-principal);
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #000000;
+  text-decoration: none;
+}
+
+.header-wrapper .header-desktop a:hover{
   text-decoration: underline;
 }
 
 @media (min-width: 375px) {
   header nav{
     display: none;
+  }
+}
+
+@media (min-width: 700px){
+  header .icon-menu{
+    display: none;
+  }
+
+  #app .header-mobile{
+    display: none;
+  }
+
+  .header-wrapper .header-desktop{
+    display: flex;
   }
 }
