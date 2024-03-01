@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rick & Morty</title>
-  <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script type="module" src="js/index.js"></script>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -38,7 +38,52 @@
     <div id="container">
       <div class="cabecalho-img">
         <img src="assets/logo-rm-desktop.png" alt="Nome Rick e Morty">
+      </div>
+      <div class="filter-wrapper">
+        <div class="filters">
+          <div class="byName">
+            <label for="fillterName" class="sr-only">Filter by name...</label>
+            <i class="ph ph-magnifying-glass"></i>
+            <input type="text" name="byName" id="byName" placeholder="Filter by name...">
+          </div>
+          <div class="advancedFilters">
+            <button>
+              <i class="ph-bold ph-funnel-simple"></i>
+              Advanced Filters
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <div class="modal-filters">
+      <div>
+        <span>Filters</span>
+        <p>&times;</p>
+      </div>
+
+      <form action="">
+        <div class="species">
+          <label for="inSpecies" class="sr-only">Espécie do personagem</label>
+          <select name="inSpecies" id="inSpecies">
+            <option value="teste">Teste 1</option>
+          </select>
+        </div>
+        <div class="gender">
+          <label for="inGender" class="sr-only">Gênero do personagem</label>
+          <select name="inGender" id="inGender">
+            <option value="genderTeste">Teste 1</option>
+          </select>
+        </div>
+        <div class="status">
+          <label for="inStatus" class="sr-only">Status do personagem</label>
+          <select name="inStatus" id="inStatus">
+            <option value="statusTeste">Teste 1</option>
+          </select>
+        </div>
+
+        <input type="submit" value="Aplly">
+      </form>
     </div>
   </div>
 </body>
