@@ -253,6 +253,10 @@ header .icon-menu i{
   color: rgba(0, 0, 0, 0.671);
 }
 
+.filters #formDesk{
+  display: none;
+}
+
 /*modal advanced filters*/
 #app .modal-filters{
   display: none;
@@ -374,7 +378,33 @@ form input[type=submit]:hover{
     display: flex;
   }
 
-  .filter-wrapper .filters .advancedFilters button{
+  .filter-wrapper .filters{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    gap: 2rem;
+  }
+
+  .filter-wrapper .byName{
+    width: 24rem;
+  }
+
+  .filter-wrapper .filters #formDesk{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  #formDesk .species select,
+  #formDesk .gender select,
+  #formDesk .status select{
+    width: 24rem;
+  }
+
+  .filter-wrapper .filters .advancedFilters{
     display: none;
   }
 }

@@ -46,12 +46,36 @@
             <i class="ph ph-magnifying-glass"></i>
             <input type="text" name="byName" id="byName" placeholder="Filter by name...">
           </div>
+
+          <!--for mobile-->
           <div class="advancedFilters">
             <button>
               <i class="ph-bold ph-funnel-simple"></i>
               Advanced Filters
             </button>
           </div>
+
+          <!--for desktop-->
+          <form id="formDesk">
+            <div class="species">
+              <label for="inSpecies" class="sr-only">Espécie do personagem</label>
+              <select name="inSpecies" id="inSpecies">
+                <option value="teste">Teste 1</option>
+              </select>
+            </div>
+            <div class="gender">
+              <label for="inGender" class="sr-only">Gênero do personagem</label>
+              <select name="inGender" id="inGender">
+                <option value="genderTeste">Teste 1</option>
+              </select>
+            </div>
+            <div class="status">
+              <label for="inStatus" class="sr-only">Status do personagem</label>
+              <select name="inStatus" id="inStatus">
+                <option value="statusTeste">Teste 1</option>
+              </select>
+            </div>
+          </form>
         </div>
       </div>
     </div>
