@@ -1,4 +1,5 @@
 import "./toggleMenu.js";
+import "./toggleModal.js";
 
 async function search(){
   const resp = await fetch("https://rickandmortyapi.com/api/character");

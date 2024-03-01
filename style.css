@@ -255,6 +255,11 @@ header .icon-menu i{
 
 /*modal advanced filters*/
 #app .modal-filters{
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
   background-color: rgba(0, 0, 0, 50%);
 
   width: 100%;
@@ -262,9 +267,8 @@ header .icon-menu i{
 
   padding: 0 2rem;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+  position: absolute;
 }
 
 .modal-filters .modal-filter-content{
