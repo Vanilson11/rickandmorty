@@ -16,7 +16,7 @@ html:not(.mobal) .ph-x{
 }
 
 body{
-  width: 100vw;
+  /* width: 100vw; */
   font-size: 1.6rem;
 }
 
