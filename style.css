@@ -389,6 +389,12 @@ form input[type=submit]:hover{
   box-shadow: .2rem .2rem .4rem rgba(0, 0, 0, 0.226);
 
   overflow: hidden;
+
+  cursor: pointer;
+}
+
+.cards-wrapper .card-personagem:hover .personagem-img img{
+  transform: scale(1.1);
 }
 
 .card-personagem .personagem-img{
@@ -396,6 +402,8 @@ form input[type=submit]:hover{
   height: 23.2rem;
 
   overflow: hidden;
+
+  cursor: pointer;
 }
 
 .card-personagem .personagem-img img{
@@ -403,10 +411,12 @@ form input[type=submit]:hover{
   height: 100%;
 
   object-fit: cover;
+
+  transition: all .3s ease-in-out;
 }
 
 .card-personagem .personagem-info{
-  padding: 0 1.6rem;
+  padding: 0 1.6rem 1.2rem 1.6rem;
 }
 
 .card-personagem .personagem-info p{
@@ -439,8 +449,10 @@ form input[type=submit]:hover{
   }
 
   #container{
-    display: grid;
-    place-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 0 6rem;
   }
 
@@ -481,6 +493,10 @@ form input[type=submit]:hover{
 
 @media (min-width: 1100px){
   #container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 0 21rem;
   }
 }
