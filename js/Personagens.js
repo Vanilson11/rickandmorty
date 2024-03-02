@@ -22,6 +22,9 @@ export class Characters{
     this.characters = await this.showCharacters();
     this.update(this.characters);
     this.creatDataOptions(this.characters);
+    /*this.characters.forEach(character => {
+      console.log(character.status)
+    })*/
   }
 }
 
@@ -30,6 +33,8 @@ export class CharactersView extends Characters{
   constructor(root){
     super(root);
     this.filterByName();
+    this.filterElementsDesk();
+    this.filterElementsMobile();
   }
 
   update(characters){
@@ -61,6 +66,33 @@ export class CharactersView extends Characters{
       
       console.log(charFilByName)
       this.update(charFilByName);
+    });
+  }
+
+  filterElementsDesk(){
+    const inSpecie = this.root.querySelector('#formDesk');
+
+    inSpecie.addEventListener("change", (e) => {
+      const termFill = e.target.dataset.fill;
+      const elementsFill = this.characters
+      .filter(character => character[termFill] === e.target.value);
+      this.update(elementsFill);
+    });
+
+    //console.log(inSpecie.elements.inGender[0].value)
+  }
+
+  filterElementsMobile(){
+    const formMobal = this.root.querySelector('.modal-filter-content form');
+    console.log(formMobal)
+
+    formMobal.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const elements = formMobal.querySelectorAll('[data-fill]');
+      //console.log(elements);
+      const elementsValue = [];
+      elements.forEach(element => elementsValue.push(element.value));
+      console.log(elementsValue)
     });
   }
 
