@@ -21,6 +21,7 @@ export class Characters{
   async load(){
     this.characters = await this.showCharacters();
     this.update(this.characters);
+    this.creatDataOptions(this.characters);
   }
 }
 
@@ -60,6 +61,17 @@ export class CharactersView extends Characters{
       
       console.log(charFilByName)
       this.update(charFilByName);
+    });
+  }
+
+  creatDataOptions(characters){
+    const dataList = this.root.querySelector('.filters datalist');
+    
+    characters.forEach(character => {
+      const option = document.createElement('option');
+      option.value = `${character.name}`;
+
+      dataList.appendChild(option);
     });
   }
 }
