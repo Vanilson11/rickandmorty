@@ -20,7 +20,7 @@ export class Characters{
 
   async load(){
     this.characters = await this.showCharacters();
-    this.update();
+    this.update(this.characters);
   }
 }
 
@@ -28,12 +28,13 @@ export class Characters{
 export class CharactersView extends Characters{
   constructor(root){
     super(root);
+    this.filterByName();
   }
 
-  update(){
-    this.characters.forEach(character => {
-      const cardsContainer = this.root.querySelector('.cards-wrapper .cards-content');
-
+  update(characters){
+    const cardsContainer = this.root.querySelector('.cards-wrapper .cards-content');
+    cardsContainer.innerHTML = '';
+    characters.forEach(character => {
       cardsContainer.innerHTML += `
         <div class="card-personagem">
           <div class="personagem-img">
@@ -45,6 +46,20 @@ export class CharactersView extends Characters{
           </div>
         </div>
       `
+    });
+  }
+
+  filterByName(){
+    const inName = this.root.querySelector('#byName');
+    inName.addEventListener("blur", (e) => {
+      e.preventDefault();
+      const characterName = e.target.value;
+
+      const charFilByName = this.characters
+        .filter(character => character.name === characterName);
+      
+      console.log(charFilByName)
+      this.update(charFilByName);
     });
   }
 }
