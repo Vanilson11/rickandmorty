@@ -101,21 +101,26 @@
         </div>
         <form action="">
           <div class="species">
-            <label for="inSpecies" class="sr-only">Espécie do personagem</label>
-            <select name="inSpecies" id="inSpecies" data-fill="species">
+            <label for="species" class="sr-only">Espécie do personagem</label>
+            <select name="species" id="species" data-fill="species">
               <option value="Human">Human</option>
+              <option value="Alien">Alien</option>
             </select>
           </div>
           <div class="gender">
-            <label for="inGender" class="sr-only">Gênero do personagem</label>
-            <select name="inGender" id="inGender" data-fill="gender">
+            <label for="gender" class="sr-only">Gênero do personagem</label>
+            <select name="gender" id="gender" data-fill="gender">
               <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="unknown">unknown</option>
             </select>
           </div>
           <div class="status">
-            <label for="inStatus" class="sr-only">Status do personagem</label>
-            <select name="inStatus" id="inStatus" data-fill="status">
+            <label for="status" class="sr-only">Status do personagem</label>
+            <select name="status" id="status" data-fill="status">
               <option value="Alive">Alive</option>
+              <option value="unknown">unknown</option>
+              <option value="Dead">Dead</option>
             </select>
           </div>
           <input type="submit" value="Aplly">

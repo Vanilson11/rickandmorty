@@ -78,21 +78,30 @@ export class CharactersView extends Characters{
       .filter(character => character[termFill] === e.target.value);
       this.update(elementsFill);
     });
-
-    //console.log(inSpecie.elements.inGender[0].value)
   }
 
   filterElementsMobile(){
     const formMobal = this.root.querySelector('.modal-filter-content form');
-    console.log(formMobal)
 
     formMobal.addEventListener("submit", (e) => {
       e.preventDefault();
-      const elements = formMobal.querySelectorAll('[data-fill]');
-      //console.log(elements);
-      const elementsValue = [];
-      elements.forEach(element => elementsValue.push(element.value));
-      console.log(elementsValue)
+
+      const valoresSelect = {};
+
+      for(let element of formMobal.elements){
+        if(element.tagName === 'SELECT') {
+          valoresSelect[element.name] = element.value;
+        }
+      }
+
+      const charactersFill = this.characters.filter(character => {
+        return character.species === valoresSelect.species &&
+               character.gender === valoresSelect.gender &&
+               character.status === valoresSelect.status 
+      });
+      this.update(charactersFill);
+
+      this.root.querySelector('#app .modal-filters').style.display = 'none';
     });
   }
 
