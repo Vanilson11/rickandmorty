@@ -1,0 +1,151 @@
+:root{
+  font-size: 52.5%;
+  --ff-principal: "Karla", sans-serif;
+  --ff-secondary: "Roboto", sans-serif;
+}
+
+body{
+  font-size: 1.6rem;
+}
+
+#details-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3.2rem;
+
+  width: 100%;
+  padding: 1.2rem 2.4rem;
+}
+
+.details-header{
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.6rem;
+}
+
+.details-header .btn-go-back{
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+}
+
+.details-header .btn-go-back p{
+  font-family: var(--ff-principal);
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.details-header .btn-go-back span{
+  font-size: 1.8rem;
+
+  cursor: pointer;
+}
+
+.details-header .details-img{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.details-header .details-img .char-img{
+  width: 18.6rem;
+  height: 18.6rem;
+
+  border-radius: 50%;
+
+  box-shadow: .2rem .2rem .4rem rgba(0, 0, 0, 0.493);
+  overflow: hidden;
+}
+
+.details-header .details-img .char-img img{
+  width: 18.6rem;
+  height: 18.6rem;
+
+  object-fit: cover;
+}
+
+.details-header .details-img .char-name{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.details-header .details-img .char-name span{
+  font-family: var(--ff-secondary);
+  font-size: 3.2rem;
+  color: #081F32;
+}
+
+.datails-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5.2rem;
+}
+
+.datails-content .details-informations,
+.datails-content .details-episodes{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.6rem;
+}
+
+.datails-content .details-informations h3,
+.datails-content .details-episodes h3{
+  font-family: var(--ff-secondary);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 2.4rem;
+  color: #8E8E93;
+}
+
+.details-informations .informations-wrapper,
+.details-episodes .episodes-wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.2rem;
+  padding: 0 2.4rem;
+}
+
+.informations-wrapper .informations,
+.episodes-wrapper .episodes{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: .4rem;
+}
+
+.informations h4,
+.episodes h4{
+  font-family: var(--ff-secondary);
+  font-size: 1.8rem;
+  font-weight: bold;
+  line-height: 2.4rem;
+  color: #081F32;
+}
+
+.informations span,
+.episodes span{
+  font-family: var(--ff-secondary);
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  letter-spacing: 0.1rem;
+  color: #6E798C;
+}
+
+.episodes .ep-data{
+  font-size: 1rem;
+  line-height: 1.6rem;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+  color: #8E8E93;
+}
