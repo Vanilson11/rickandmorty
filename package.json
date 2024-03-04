@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "lite-server": "^2.6.1"
+  },
+  "name": "rickandmorty",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "lite-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vanilson11/rickandmorty.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vanilson11/rickandmorty/issues"
+  },
+  "homepage": "https://github.com/Vanilson11/rickandmorty#readme",
+  "description": ""
+}
