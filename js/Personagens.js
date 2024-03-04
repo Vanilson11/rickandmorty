@@ -1,5 +1,8 @@
 //classe para buscar e tratar os dados
 export class Characters{
+  routes = {
+    "/charDetails": "/pages/charDetails.html"
+  }
   characters = [];
   constructor(root){
     this.root = document.querySelector(root);
@@ -43,7 +46,7 @@ export class CharactersView extends Characters{
     characters.forEach(character => {
       cardsContainer.innerHTML += `
         <div class="card-personagem">
-          <div class="personagem-img">
+          <div class="personagem-img" href="/charDetails">
             <img src="${character.image}" alt="Imagem de ${character.name}">
           </div>
           <div class="personagem-info">
@@ -53,6 +56,9 @@ export class CharactersView extends Characters{
         </div>
       `
     });
+
+    const elementsDetails = this.root.querySelectorAll('.card-personagem .personagem-img');
+    this.charDetails(elementsDetails);
   }
 
   filterByName(){
@@ -114,5 +120,48 @@ export class CharactersView extends Characters{
 
       dataList.appendChild(option);
     });
+  }
+
+  charDetails(elementsDetails){
+    elementsDetails.forEach(element => {
+      element.addEventListener("click", (e) => {
+        e.preventDefault();
+        const { parentNode } = e.target;
+        const href = parentNode.attributes.href.value;
+        const { nextElementSibling } = parentNode;
+        const charName = nextElementSibling.querySelector('p').textContent;
+
+        const char = this.characters.find(char => char.name === charName);
+
+        this.route(href, char);
+      })
+    })
+  }
+
+  changeCharDetails(character){
+    //console.log(character)
+    this.root.querySelector('.details-img img').src = `${character.image}`;
+    this.root.querySelector('.details-img img').alt = `Imagem de ${character.name}`;
+    this.root.querySelector('.char-name span').textContent = `${character.name}`;
+    this.root.querySelector('.informations .infoGender').textContent = `${character.gender}`;
+    this.root.querySelector('.informations .infoStatus').textContent = `${character.status}`;
+    this.root.querySelector('.informations .infoSpecie').textContent = `${character.species}`;
+  }
+
+  route(href, char){
+    window.history.pushState({}, "", href);
+
+    this.handlePage(char);
+  }
+
+  handlePage(char){
+    const { pathname } = window.location;
+    const route = this.routes[pathname];
+
+    fetch(route).then(data => data.text()).then(html => {
+      this.root.querySelector('#container').innerHTML = '';
+      this.root.querySelector('#container').innerHTML = html;
+      this.changeCharDetails(char);
+    })
   }
 }
