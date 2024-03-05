@@ -94,7 +94,7 @@ header .icon-menu i{
 }
 
 /*navbar mobile*/
-#app .header-mobile{
+.header-mobile{
   display: none;
   flex-direction: column;
   align-items: center;
@@ -104,7 +104,7 @@ header .icon-menu i{
   margin-top: 4.8rem;
 }
 
-#app .header-mobile a{
+.header-mobile a{
   font-family: var(--ff-principal);
   font-size: 2.4rem;
   font-weight: bold;
@@ -112,7 +112,7 @@ header .icon-menu i{
   text-decoration: none;
 }
 
-#app nav.header-mobile a:hover{
+nav.header-mobile a:hover{
   text-decoration: underline;
 }
 

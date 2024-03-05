@@ -1,3 +1,5 @@
+import * as advFilter from "./toggleModal.js";
+
 export class Router{
 }
 //classe para buscar e tratar os dados
@@ -10,6 +12,8 @@ export class Characters{
     this.load();
     this.addRoute("/", "../pages/home.html");
     this.addRoute("/charDetails", "../pages/charDetails.html");
+    window.onpopstate = () => this.handlePage();
+    //this.realoadOnCharDetails();
   }
 
   addRoute(page, href){
@@ -25,15 +29,39 @@ export class Characters{
   handlePage(char){
     const { pathname } = window.location;
     const route = this.routes[pathname];
-    console.log(route);
+    //console.log(route);
 
-    fetch(route).then(data => data.text()).then(html => {
-      document.querySelector('#container').innerHTML = '';
-      document.querySelector('#container').innerHTML = html;
-      //console.log(html)
-      this.changeElementsDetails(char);
-    });
+    if(pathname === "/"){
+      fetch(route).then(data => data.text()).then(html => {
+        document.querySelector('#app').innerHTML = '';
+        document.querySelector('#app').innerHTML = html;
+        this.update(this.characters);
+        advFilter.openAdvancedFilter();
+        advFilter.closeAdvancedFilters();
+        this.filterByName();
+        this.creatDataOptions(this.characters);
+        this.filterElementsMobile();
+        this.filterElementsDesk();
+      });
+    } else{
+      fetch(route).then(data => data.text()).then(html => {
+        document.querySelector('#app').innerHTML = '';
+        document.querySelector('#app').innerHTML = html;
+        //console.log(html)
+        this.changeElementsDetails(char);
+      });
+    }
+
   }
+
+  /*realoadOnCharDetails(){
+    window.addEventListener("beforeunload", (event) => {
+      const teste = function () {
+        window.location.href = "/";
+      }
+      window.location.replace(teste);
+    })
+  }*/
 
   changeElementsDetails(character){
     document.querySelector('.details-img img').src = `${character.image}`;
@@ -58,8 +86,8 @@ export class Characters{
 
   async load(){
     this.characters = await this.showCharacters();
-    this.update(this.characters);
-    this.creatDataOptions(this.characters);
+    this.handlePage();
+    //this.creatDataOptions(this.characters);
     /*this.characters.forEach(character => {
       console.log(character.status)
     })*/
@@ -70,9 +98,9 @@ export class Characters{
 export class CharactersView extends Characters{
   constructor(root){
     super(root);
-    this.filterByName();
-    this.filterElementsDesk();
-    this.filterElementsMobile();
+    //this.filterByName();
+    //this.filterElementsDesk();
+    //this.filterElementsMobile();
   }
 
   update(characters){
@@ -168,13 +196,12 @@ export class CharactersView extends Characters{
 
         const char = this.characters.find(char => char.name === charName);
 
-        //this.route(href, char);
         this.route(href, char);
       })
     })
   }
 
-  /*changeCharDetails(character){
+  changeCharDetails(character){
     //console.log(character)
     this.root.querySelector('.details-img img').src = `${character.image}`;
     this.root.querySelector('.details-img img').alt = `Imagem de ${character.name}`;
@@ -182,7 +209,7 @@ export class CharactersView extends Characters{
     this.root.querySelector('.informations .infoGender').textContent = `${character.gender}`;
     this.root.querySelector('.informations .infoStatus').textContent = `${character.status}`;
     this.root.querySelector('.informations .infoSpecie').textContent = `${character.species}`;
-  }*/
+  }
 
   /*handlePage(char){
     //const { pathname } = window.location;

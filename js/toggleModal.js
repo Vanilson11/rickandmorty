@@ -1,11 +1,16 @@
-export const btnAdvancedFilters = document.querySelector('.advancedFilters button');
-export const closeAdvancedFilters = document.querySelector('.head-fiter-content p');
+export function openAdvancedFilter(){
+  const btnAdvancedFilters = document.querySelector('.advancedFilters button');
+  btnAdvancedFilters.addEventListener("click", (e) => {
+    e.preventDefault();
+    document.querySelector('#app .modal-filters').style.display = 'flex';
+  });
+}
 
-btnAdvancedFilters.addEventListener("click", (e) => {
-  e.preventDefault();
-  document.querySelector('#app .modal-filters').style.display = 'flex';
-});
 
-closeAdvancedFilters.addEventListener("click", () => {
-  document.querySelector('#app .modal-filters').style.display = 'none';
-});
+export function closeAdvancedFilters(){
+  const closeFilters = document.querySelector('.head-fiter-content p');
+
+  closeFilters.addEventListener("click", () => {
+    document.querySelector('#app .modal-filters').style.display = 'none';
+  });
+}
