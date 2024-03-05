@@ -1,0 +1,113 @@
+<header>
+  <div class="header-wrapper">
+    <div class="logo">
+      <img src="assets/logo-black 1.png" alt="Logo Rick e Morty">
+    </div>
+    <nav class="header-desktop">
+      <a href="#">Characters</a>
+      <a href="#">Locations</a>
+      <a href="#">Episodes</a>
+    </nav>
+    <div class="icon-menu">
+      <i class="ph ph-list" data-menuView></i>
+      <i class="ph ph-x" data-menuView></i>
+    </div>
+  </div>
+</header>
+<nav class="header-mobile">
+  <a href="/">Characters</a>
+  <a href="/locations">Locations</a>
+  <a href="/episodes">Episodes</a>
+</nav>
+
+<div id="container">
+  <div class="cabecalho-img">
+    <img src="assets/logo-rm-desktop.png" alt="Nome Rick e Morty">
+  </div>
+
+  <div class="filter-wrapper">
+    <div class="filters">
+      <div class="byName">
+        <label for="fillterName" class="sr-only">Filter by name...</label>
+        <i class="ph ph-magnifying-glass"></i>
+        <input list="personagens" name="byName" id="byName" placeholder="Filter by name...">
+      </div>
+      <datalist id="personagens">
+        
+      </datalist>
+
+      <div class="advancedFilters">
+        <button>
+          <i class="ph-bold ph-funnel-simple"></i>
+          Advanced Filters
+        </button>
+      </div>
+
+      <form id="formDesk">
+        <div class="species">
+          <label for="inSpecies" class="sr-only">Espécie do personagem</label>
+          <select name="inSpecies" id="inSpecies" data-fill="species">
+            <option value="Human">Human</option>
+            <option value="Alien">Alien</option>
+          </select>
+        </div>
+        <div class="gender">
+          <label for="inGender" class="sr-only">Gênero do personagem</label>
+          <select name="inGender" id="inGender" data-fill="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="unknown">unknown</option>
+          </select>
+        </div>
+        <div class="status">
+          <label for="inStatus" class="sr-only">Status do personagem</label>
+          <select name="inStatus" id="inStatus" data-fill="status">
+            <option value="Alive">Alive</option>
+            <option value="unknown">unknown</option>
+            <option value="Dead">Dead</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="cards-wrapper">
+    <div class="cards-content"></div>
+  </div>
+  
+</div>
+
+<div class="modal-filters">
+  <div class="modal-filter-content">
+    <div class="head-fiter-content">
+      <span>Filters</span>
+      <p>&times;</p>
+    </div>
+    <form action="">
+      <div class="species">
+        <label for="species" class="sr-only">Espécie do personagem</label>
+        <select name="species" id="species" data-fill="species">
+          <option value="Human">Human</option>
+          <option value="Alien">Alien</option>
+        </select>
+      </div>
+      <div class="gender">
+        <label for="gender" class="sr-only">Gênero do personagem</label>
+        <select name="gender" id="gender" data-fill="gender">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="unknown">unknown</option>
+        </select>
+      </div>
+      <div class="status">
+        <label for="status" class="sr-only">Status do personagem</label>
+        <select name="status" id="status" data-fill="status">
+          <option value="Alive">Alive</option>
+          <option value="unknown">unknown</option>
+          <option value="Dead">Dead</option>
+        </select>
+      </div>
+      <input type="submit" value="Aplly">
+    </form>
+  </div>
+</div>

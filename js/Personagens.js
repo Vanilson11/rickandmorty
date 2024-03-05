@@ -1,12 +1,47 @@
+export class Router{
+}
 //classe para buscar e tratar os dados
 export class Characters{
-  routes = {
-    "/charDetails": "/pages/charDetails.html"
-  }
-  characters = [];
+  characters = []
+  root
+  routes = {};
   constructor(root){
     this.root = document.querySelector(root);
     this.load();
+    this.addRoute("/", "../pages/home.html");
+    this.addRoute("/charDetails", "../pages/charDetails.html");
+  }
+
+  addRoute(page, href){
+    this.routes[page] = href;
+  }
+
+  route(href, char){
+    window.history.pushState({}, "", href);
+
+    this.handlePage(char);
+  }
+
+  handlePage(char){
+    const { pathname } = window.location;
+    const route = this.routes[pathname];
+    console.log(route);
+
+    fetch(route).then(data => data.text()).then(html => {
+      document.querySelector('#container').innerHTML = '';
+      document.querySelector('#container').innerHTML = html;
+      //console.log(html)
+      this.changeElementsDetails(char);
+    });
+  }
+
+  changeElementsDetails(character){
+    document.querySelector('.details-img img').src = `${character.image}`;
+    document.querySelector('.details-img img').alt = `Imagem de ${character.name}`;
+    document.querySelector('.char-name span').textContent = `${character.name}`;
+    document.querySelector('.informations .infoGender').textContent = `${character.gender}`;
+    document.querySelector('.informations .infoStatus').textContent = `${character.status}`;
+    document.querySelector('.informations .infoSpecie').textContent = `${character.species}`;
   }
 
   async showCharacters(){
@@ -133,12 +168,13 @@ export class CharactersView extends Characters{
 
         const char = this.characters.find(char => char.name === charName);
 
+        //this.route(href, char);
         this.route(href, char);
       })
     })
   }
 
-  changeCharDetails(character){
+  /*changeCharDetails(character){
     //console.log(character)
     this.root.querySelector('.details-img img').src = `${character.image}`;
     this.root.querySelector('.details-img img').alt = `Imagem de ${character.name}`;
@@ -146,22 +182,16 @@ export class CharactersView extends Characters{
     this.root.querySelector('.informations .infoGender').textContent = `${character.gender}`;
     this.root.querySelector('.informations .infoStatus').textContent = `${character.status}`;
     this.root.querySelector('.informations .infoSpecie').textContent = `${character.species}`;
-  }
+  }*/
 
-  route(href, char){
-    window.history.pushState({}, "", href);
-
-    this.handlePage(char);
-  }
-
-  handlePage(char){
-    const { pathname } = window.location;
-    const route = this.routes[pathname];
+  /*handlePage(char){
+    //const { pathname } = window.location;
+    //const route = this.routes[pathname];
 
     fetch(route).then(data => data.text()).then(html => {
       this.root.querySelector('#container').innerHTML = '';
       this.root.querySelector('#container').innerHTML = html;
       this.changeCharDetails(char);
     })
-  }
+  }*/
 }
