@@ -1,8 +1,5 @@
 import * as advFilter from "./toggleModal.js";
 
-export class Router{
-}
-//classe para buscar e tratar os dados
 export class Characters{
   characters = []
   root
@@ -16,20 +13,30 @@ export class Characters{
     //this.realoadOnCharDetails();
   }
 
-  addRoute(page, href){
-    this.routes[page] = href;
+  async load(){
+    this.characters = await this.showCharacters();
+    this.handlePage();
   }
 
-  route(href, char){
-    window.history.pushState({}, "", href);
+  async showCharacters(){
+    try{
+      const resp = await fetch("https://rickandmortyapi.com/api/character");
+      const respConvertida = await resp.json();
+      const { results } = await respConvertida;
 
-    this.handlePage(char);
+      return results;
+    } catch(error) {
+      alert("Não foi possível carregar a página");
+    }
+  }
+
+  addRoute(page, href){
+    this.routes[page] = href;
   }
 
   handlePage(char){
     const { pathname } = window.location;
     const route = this.routes[pathname];
-    //console.log(route);
 
     if(pathname === "/"){
       fetch(route).then(data => data.text()).then(html => {
@@ -47,21 +54,17 @@ export class Characters{
       fetch(route).then(data => data.text()).then(html => {
         document.querySelector('#app').innerHTML = '';
         document.querySelector('#app').innerHTML = html;
-        //console.log(html)
         this.changeElementsDetails(char);
       });
     }
 
   }
 
-  /*realoadOnCharDetails(){
-    window.addEventListener("beforeunload", (event) => {
-      const teste = function () {
-        window.location.href = "/";
-      }
-      window.location.replace(teste);
-    })
-  }*/
+  route(href, char){
+    window.history.pushState({}, "", href);
+
+    this.handlePage(char);
+  }
 
   changeElementsDetails(character){
     this.goBackHome();
@@ -73,35 +76,20 @@ export class Characters{
     document.querySelector('.informations .infoSpecie').textContent = `${character.species}`;
   }
 
-  async showCharacters(){
-    try{
-      const resp = await fetch("https://rickandmortyapi.com/api/character");
-      const respConvertida = await resp.json();
-      const { results } = await respConvertida;
-
-      return results;
-    } catch(error) {
-      alert("Não foi possível carregar a página");
-    }
-  }
-
-  async load(){
-    this.characters = await this.showCharacters();
-    this.handlePage();
-    //this.creatDataOptions(this.characters);
-    /*this.characters.forEach(character => {
-      console.log(character.status)
-    })*/
-  }
+  /*realoadOnCharDetails(){
+    window.addEventListener("beforeunload", (event) => {
+      const teste = function () {
+        window.location.href = "/";
+      }
+      window.location.replace(teste);
+    })
+  }*/
 }
 
 //classe para manipular o HTML
 export class CharactersView extends Characters{
   constructor(root){
     super(root);
-    //this.filterByName();
-    //this.filterElementsDesk();
-    //this.filterElementsMobile();
   }
 
   update(characters){
@@ -125,6 +113,22 @@ export class CharactersView extends Characters{
     this.charDetails(elementsDetails);
   }
 
+  charDetails(elementsDetails){
+    elementsDetails.forEach(element => {
+      element.addEventListener("click", (e) => {
+        e.preventDefault();
+        const { parentNode } = e.target;
+        const href = parentNode.attributes.href.value;
+        const { nextElementSibling } = parentNode;
+        const charName = nextElementSibling.querySelector('p').textContent;
+
+        const char = this.characters.find(char => char.name === charName);
+
+        this.route(href, char);
+      })
+    })
+  }
+
   filterByName(){
     const inName = this.root.querySelector('#byName');
     inName.addEventListener("blur", (e) => {
@@ -134,19 +138,18 @@ export class CharactersView extends Characters{
       const charFilByName = this.characters
         .filter(character => character.name === characterName);
       
-      console.log(charFilByName)
       this.update(charFilByName);
     });
   }
 
-  filterElementsDesk(){
-    const inSpecie = this.root.querySelector('#formDesk');
+  creatDataOptions(characters){
+    const dataList = this.root.querySelector('.filters datalist');
+    
+    characters.forEach(character => {
+      const option = document.createElement('option');
+      option.value = `${character.name}`;
 
-    inSpecie.addEventListener("change", (e) => {
-      const termFill = e.target.dataset.fill;
-      const elementsFill = this.characters
-      .filter(character => character[termFill] === e.target.value);
-      this.update(elementsFill);
+      dataList.appendChild(option);
     });
   }
 
@@ -175,31 +178,15 @@ export class CharactersView extends Characters{
     });
   }
 
-  creatDataOptions(characters){
-    const dataList = this.root.querySelector('.filters datalist');
-    
-    characters.forEach(character => {
-      const option = document.createElement('option');
-      option.value = `${character.name}`;
+  filterElementsDesk(){
+    const inSpecie = this.root.querySelector('#formDesk');
 
-      dataList.appendChild(option);
+    inSpecie.addEventListener("change", (e) => {
+      const termFill = e.target.dataset.fill;
+      const elementsFill = this.characters
+      .filter(character => character[termFill] === e.target.value);
+      this.update(elementsFill);
     });
-  }
-
-  charDetails(elementsDetails){
-    elementsDetails.forEach(element => {
-      element.addEventListener("click", (e) => {
-        e.preventDefault();
-        const { parentNode } = e.target;
-        const href = parentNode.attributes.href.value;
-        const { nextElementSibling } = parentNode;
-        const charName = nextElementSibling.querySelector('p').textContent;
-
-        const char = this.characters.find(char => char.name === charName);
-
-        this.route(href, char);
-      })
-    })
   }
 
   changeCharDetails(character){
@@ -211,17 +198,6 @@ export class CharactersView extends Characters{
     this.root.querySelector('.informations .infoStatus').textContent = `${character.status}`;
     this.root.querySelector('.informations .infoSpecie').textContent = `${character.species}`;
   }
-
-  /*handlePage(char){
-    //const { pathname } = window.location;
-    //const route = this.routes[pathname];
-
-    fetch(route).then(data => data.text()).then(html => {
-      this.root.querySelector('#container').innerHTML = '';
-      this.root.querySelector('#container').innerHTML = html;
-      this.changeCharDetails(char);
-    })
-  }*/
 
   goBackHome(){
     const btn = this.root.querySelector('.btn-go-back span');
