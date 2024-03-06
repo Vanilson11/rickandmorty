@@ -64,6 +64,7 @@ export class Characters{
   }*/
 
   changeElementsDetails(character){
+    this.goBackHome();
     document.querySelector('.details-img img').src = `${character.image}`;
     document.querySelector('.details-img img').alt = `Imagem de ${character.name}`;
     document.querySelector('.char-name span').textContent = `${character.name}`;
@@ -221,4 +222,11 @@ export class CharactersView extends Characters{
       this.changeCharDetails(char);
     })
   }*/
+
+  goBackHome(){
+    const btn = this.root.querySelector('.btn-go-back span');
+    btn.addEventListener("click", (event) => {
+      this.route("/", null);
+    });
+  }
 }
