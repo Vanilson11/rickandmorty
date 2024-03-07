@@ -1,0 +1,45 @@
+:root{
+  font-size: 52.5%;
+  --ff-principal: "Karla", sans-serif;
+  --ff-secondary: "Roboto", sans-serif;
+}
+
+body{
+  font-size: 1.6rem;
+}
+
+.locations-wrapper .card-location{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(221, 221, 221, 0.493);
+
+  height: 12.8rem;
+
+  box-shadow: 0rem 0rem .4rem rgba(0, 0, 0, 0.37);
+}
+
+.card-location .location-info{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+}
+
+.location-info p{
+  font-family: var(--ff-secondary);
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 3rem;
+  letter-spacing: .15rem;
+}
+
+.location-info span{
+  font-family: var(--ff-secondary);
+  font-size: 1.4rem;
+  line-height: 2.1rem;
+  letter-spacing: .2rem;
+  color: rgba(0, 0, 0, 0.541);
+}
