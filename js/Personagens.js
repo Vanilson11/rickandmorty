@@ -9,6 +9,7 @@ export class Characters{
     this.load();
     this.addRoute("/", "../pages/home.html");
     this.addRoute("/charDetails", "../pages/charDetails.html");
+    this.addRoute("/locations", "../pages/locations.html")
     window.onpopstate = () => this.handlePage();
     //this.realoadOnCharDetails();
   }
@@ -50,7 +51,14 @@ export class Characters{
         this.filterElementsMobile();
         this.filterElementsDesk();
       });
-    } else{
+    } else if(pathname === "/locations"){
+      fetch(route).then(data => data.text()).then(html => {
+        document.querySelector('#app').innerHTML = '';
+        document.querySelector('#app').innerHTML = html;
+        console.log(html);
+        return;
+      });
+    } else {
       fetch(route).then(data => data.text()).then(html => {
         document.querySelector('#app').innerHTML = '';
         document.querySelector('#app').innerHTML = html;
@@ -90,6 +98,7 @@ export class Characters{
 export class CharactersView extends Characters{
   constructor(root){
     super(root);
+    this.clickNavDesk();
   }
 
   update(characters){
@@ -203,6 +212,17 @@ export class CharactersView extends Characters{
     const btn = this.root.querySelector('.btn-go-back span');
     btn.addEventListener("click", (event) => {
       this.route("/", null);
+    });
+  }
+
+  clickNavDesk(){
+    const btnLink = document.querySelectorAll("[data-link]");
+    btnLink.forEach(btn => {
+      btn.addEventListener("click", (event) => {
+        //event.preventDefault();
+        const href = event.target.attributes.href.value;
+        this.route(href, null);
+      });
     });
   }
 }

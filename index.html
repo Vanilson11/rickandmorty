@@ -9,9 +9,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="styles/charDetails.css">
-  <link rel="stylesheet" href="/styles/locations.css">
+  <link rel="stylesheet" href="styles/locations.css">
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
-  <!-- <script type="module" src="js/index.js" defer></script> -->
+  <script type="module" src="js/index.js" defer></script>
 </head>
 <body>
   <header>
@@ -31,184 +31,12 @@
     </div>
   </header>
   <nav class="header-mobile">
-    <a href="/">Characters</a>
-    <a href="/locations">Locations</a>
-    <a href="/episodes">Episodes</a>
+    <a href="/" data-link>Characters</a>
+    <a href="/locations" data-link>Locations</a>
+    <a href="/episodes" data-link>Episodes</a>
   </nav>
   <div id="app">
-    <div id="container">
-      <div class="cabecalho-img">
-        <img src="/assets/img-header-location.png" alt="Imagem de Rick e Morty">
-      </div>
-    
-      <div class="filter-wrapper">
-        <div class="filters">
-          <div class="byName">
-            <label for="fillterName" class="sr-only">Filter by name...</label>
-            <i class="ph ph-magnifying-glass"></i>
-            <input list="personagens" name="byName" id="byName" placeholder="Filter by name...">
-          </div>
-          <datalist id="personagens"></datalist>
-    
-          <div class="advancedFilters">
-            <button>
-              <i class="ph-bold ph-funnel-simple"></i>
-              Advanced Filters
-            </button>
-          </div>
-    
-          <form id="formDesk">
-            <div class="type">
-              <label for="inType" class="sr-only">Espécie do personagem</label>
-              <select name="inType" id="inType" data-fill="type">
-                <option value="Human">Human</option>
-                <option value="Alien">Alien</option>
-              </select>
-            </div>
-            <div class="demension">
-              <label for="inDimension" class="sr-only">Gênero do personagem</label>
-              <select name="inDimension" id="inDimension" data-fill="dimension">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="unknown">unknown</option>
-              </select>
-            </div>
-          </form>
-        </div>
-      
-        <div class="modal-filters">
-          <div class="modal-filter-content">
-            <div class="head-fiter-content">
-              <span>Filters</span>
-              <p>&times;</p>
-            </div>
-            <form action="">
-              <div class="type">
-                <label for="type" class="sr-only">Espécie do personagem</label>
-                <select name="type" id="type" data-fill="type">
-                  <option value="Human">Human</option>
-                  <option value="Alien">Alien</option>
-                </select>
-              </div>
-              <div class="dimension">
-                <label for="dimension" class="sr-only">Gênero do personagem</label>
-                <select name="dimension" id="dimension" data-fill="dimension">
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="unknown">unknown</option>
-                </select>
-              </div>
-              <input type="submit" value="Aplly">
-            </form>
-          </div>
-        </div>
-      </div>
-    
-      <div class="locations-wrapper">
-        <div class="locations-content">
-          <div class="card-location">
-            <div class="location-info">
-              <p class="location-nome">Earth (C-137)</p>
-              <span class="location-type">Planet</span>
-            </div>
-          </div>
-          <div class="card-location">
-            <div class="location-info">
-              <p class="location-nome">Earth (C-137)</p>
-              <span class="location-type">Planet</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- <div class="cabecalho-img">
-        <img src="assets/logo-rm-desktop.png" alt="Nome Rick e Morty">
-      </div>
-
-      <div class="filter-wrapper">
-        <div class="filters">
-          <div class="byName">
-            <label for="fillterName" class="sr-only">Filter by name...</label>
-            <i class="ph ph-magnifying-glass"></i>
-            <input list="personagens" name="byName" id="byName" placeholder="Filter by name...">
-          </div>
-          <datalist id="personagens">
-            
-          </datalist>
-
-          <div class="advancedFilters">
-            <button>
-              <i class="ph-bold ph-funnel-simple"></i>
-              Advanced Filters
-            </button>
-          </div>
-
-          <form id="formDesk">
-            <div class="species">
-              <label for="inSpecies" class="sr-only">Espécie do personagem</label>
-              <select name="inSpecies" id="inSpecies" data-fill="species">
-                <option value="Human">Human</option>
-                <option value="Alien">Alien</option>
-              </select>
-            </div>
-            <div class="gender">
-              <label for="inGender" class="sr-only">Gênero do personagem</label>
-              <select name="inGender" id="inGender" data-fill="gender">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="unknown">unknown</option>
-              </select>
-            </div>
-            <div class="status">
-              <label for="inStatus" class="sr-only">Status do personagem</label>
-              <select name="inStatus" id="inStatus" data-fill="status">
-                <option value="Alive">Alive</option>
-                <option value="unknown">unknown</option>
-                <option value="Dead">Dead</option>
-              </select>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <div class="cards-wrapper">
-        <div class="cards-content"></div>
-      </div> -->
-
-    <!-- <div class="modal-filters">
-      <div class="modal-filter-content">
-        <div class="head-fiter-content">
-          <span>Filters</span>
-          <p>&times;</p>
-        </div>
-        <form action="">
-          <div class="species">
-            <label for="species" class="sr-only">Espécie do personagem</label>
-            <select name="species" id="species" data-fill="species">
-              <option value="Human">Human</option>
-              <option value="Alien">Alien</option>
-            </select>
-          </div>
-          <div class="gender">
-            <label for="gender" class="sr-only">Gênero do personagem</label>
-            <select name="gender" id="gender" data-fill="gender">
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="unknown">unknown</option>
-            </select>
-          </div>
-          <div class="status">
-            <label for="status" class="sr-only">Status do personagem</label>
-            <select name="status" id="status" data-fill="status">
-              <option value="Alive">Alive</option>
-              <option value="unknown">unknown</option>
-              <option value="Dead">Dead</option>
-            </select>
-          </div>
-          <input type="submit" value="Aplly">
-        </form>
-      </div>
-    </div> -->
+    <div id="container"></div>
   </div>
 </body>
 </html>

@@ -8,7 +8,21 @@ body{
   font-size: 1.6rem;
 }
 
-.locations-wrapper .card-location{
+#container .locations-wrapper{
+  display: grid;
+  width: 100%;
+}
+
+.locations-wrapper .locations-content{
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  place-items: center;
+  gap: 2.4rem;
+}
+
+.locations-wrapper .locations-content .card-location{
   display: flex;
   justify-content: center;
   align-items: center;
