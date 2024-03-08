@@ -5,8 +5,7 @@ export class Characters{
   locations = [];
   routes = {};
   root;
-  constructor(root){
-    this.root = document.querySelector(root);
+  constructor(){
     this.load();
     this.addRoute("/", "../pages/home.html");
     this.addRoute("/charDetails", "../pages/charDetails.html");
@@ -71,6 +70,7 @@ export class Characters{
       fetch(route).then(data => data.text()).then(html => {
         document.querySelector('#app').innerHTML = '';
         document.querySelector('#app').innerHTML = html;
+
       });
     } else {
       fetch(route).then(data => data.text()).then(html => {
@@ -98,6 +98,10 @@ export class Characters{
     document.querySelector('.informations .infoSpecie').textContent = `${character.species}`;
   }
 
+  filterByName(){};
+
+  creatDataOptions(){};
+
   /*realoadOnCharDetails(){
     window.addEventListener("beforeunload", (event) => {
       const teste = function () {
@@ -111,7 +115,8 @@ export class Characters{
 //classe para manipular o HTML
 export class CharactersView extends Characters{
   constructor(root){
-    super(root);
+    super();
+    this.root = document.querySelector(root);
     this.clickNavDesk();
   }
 
