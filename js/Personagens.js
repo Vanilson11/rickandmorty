@@ -1,9 +1,10 @@
 import * as advFilter from "./toggleModal.js";
 
 export class Characters{
-  characters = []
-  root
+  characters = [];
+  locations = [];
   routes = {};
+  root;
   constructor(root){
     this.root = document.querySelector(root);
     this.load();
@@ -16,6 +17,7 @@ export class Characters{
 
   async load(){
     this.characters = await this.showCharacters();
+    this.locations = await this.searchLocations();
     this.handlePage();
   }
 
@@ -28,6 +30,20 @@ export class Characters{
       return results;
     } catch(error) {
       alert("Não foi possível carregar a página");
+    }
+  }
+
+  async searchLocations(){
+    try{
+      const res = await fetch("https://rickandmortyapi.com/api/character");
+      const respConvertida = await res.json();
+      const { results } = await respConvertida;
+      
+      results.forEach(character => {
+        this.locations.push(character.location);
+      });
+    } catch(error) {
+
     }
   }
 
@@ -55,8 +71,6 @@ export class Characters{
       fetch(route).then(data => data.text()).then(html => {
         document.querySelector('#app').innerHTML = '';
         document.querySelector('#app').innerHTML = html;
-        console.log(html);
-        return;
       });
     } else {
       fetch(route).then(data => data.text()).then(html => {
