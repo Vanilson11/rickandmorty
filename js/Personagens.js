@@ -1,4 +1,5 @@
 import * as advFilter from "./toggleModal.js";
+import { CharactersData } from "./CharactersData.js";
 
 export class Characters{
   characters = [];
@@ -15,35 +16,10 @@ export class Characters{
   }
 
   async load(){
-    this.characters = await this.showCharacters();
-    this.locations = await this.searchLocations();
+    this.characters = await CharactersData.getCharacters();
+    
+    this.locations = await CharactersData.getLocations();
     this.handlePage();
-  }
-
-  async showCharacters(){
-    try{
-      const resp = await fetch("https://rickandmortyapi.com/api/character");
-      const respConvertida = await resp.json();
-      const { results } = await respConvertida;
-
-      return results;
-    } catch(error) {
-      alert("Não foi possível carregar a página");
-    }
-  }
-
-  async searchLocations(){
-    try{
-      const res = await fetch("https://rickandmortyapi.com/api/character");
-      const respConvertida = await res.json();
-      const { results } = await respConvertida;
-      
-      results.forEach(character => {
-        this.locations.push(character.location);
-      });
-    } catch(error) {
-
-    }
   }
 
   addRoute(page, href){
