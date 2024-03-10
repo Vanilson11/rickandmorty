@@ -1,5 +1,6 @@
 import * as advFilter from "./toggleModal.js";
 import { CharactersData } from "./CharactersData.js";
+import { Router } from "./Router.js";
 
 export class Characters{
   characters = [];
@@ -7,11 +8,13 @@ export class Characters{
   routes = {};
   root;
   constructor(){
+    //super();
+    //this.addRoute("/", "../pages/home.html");
+    //this.addRoute("/charDetails", "../pages/charDetails.html");
+    //this.addRoute("/locations", "../pages/locations.html");
+    
     this.load();
-    this.addRoute("/", "../pages/home.html");
-    this.addRoute("/charDetails", "../pages/charDetails.html");
-    this.addRoute("/locations", "../pages/locations.html")
-    window.onpopstate = () => this.handlePage();
+    //window.onpopstate = () => this.handlePage();
     //this.realoadOnCharDetails();
   }
 
@@ -19,14 +22,27 @@ export class Characters{
     this.characters = await CharactersData.getCharacters();
     
     this.locations = await CharactersData.getLocations();
-    this.handlePage();
+    //this.handlePage();
   }
 
-  addRoute(page, href){
+  update(data){}
+
+  static creatDataOptions(characters){
+    const dataList = document.querySelector('.filters datalist');
+    
+    characters.forEach(character => {
+      const option = document.createElement('option');
+      option.value = `${character.name}`;
+
+      dataList.appendChild(option);
+    });
+  }
+
+  /*addRoute(page, href){
     this.routes[page] = href;
-  }
+  }*/
 
-  handlePage(char){
+  /*handlePage(char){
     const { pathname } = window.location;
     const route = this.routes[pathname];
 
@@ -56,15 +72,15 @@ export class Characters{
       });
     }
 
-  }
+  }*/
 
-  route(href, char){
+  /*route(href, char){
     window.history.pushState({}, "", href);
 
     this.handlePage(char);
-  }
+  }*/
 
-  changeElementsDetails(character){
+  /*changeElementsDetails(character){
     this.goBackHome();
     document.querySelector('.details-img img').src = `${character.image}`;
     document.querySelector('.details-img img').alt = `Imagem de ${character.name}`;
@@ -72,11 +88,11 @@ export class Characters{
     document.querySelector('.informations .infoGender').textContent = `${character.gender}`;
     document.querySelector('.informations .infoStatus').textContent = `${character.status}`;
     document.querySelector('.informations .infoSpecie').textContent = `${character.species}`;
-  }
+  }*/
 
-  filterByName(){};
+  //filterByName(){};
 
-  creatDataOptions(){};
+  //creatDataOptions(){};
 
   /*realoadOnCharDetails(){
     window.addEventListener("beforeunload", (event) => {
@@ -93,11 +109,11 @@ export class CharactersView extends Characters{
   constructor(root){
     super();
     this.root = document.querySelector(root);
-    this.clickNavDesk();
+    //this.clickNavDesk();
   }
 
-  update(characters){
-    const cardsContainer = this.root.querySelector('.cards-wrapper .cards-content');
+  static update(characters){
+    const cardsContainer = document.querySelector('.cards-wrapper .cards-content');
     cardsContainer.innerHTML = '';
     characters.forEach(character => {
       cardsContainer.innerHTML += `
@@ -113,8 +129,8 @@ export class CharactersView extends Characters{
       `
     });
 
-    const elementsDetails = this.root.querySelectorAll('.card-personagem .personagem-img');
-    this.charDetails(elementsDetails);
+    //const elementsDetails = this.root.querySelectorAll('.card-personagem .personagem-img');
+    //this.charDetails(elementsDetails);
   }
 
   charDetails(elementsDetails){
@@ -129,35 +145,24 @@ export class CharactersView extends Characters{
         const char = this.characters.find(char => char.name === charName);
 
         this.route(href, char);
-      })
-    })
+      });
+    });
   }
 
-  filterByName(){
-    const inName = this.root.querySelector('#byName');
+  static filterByName(data){
+    console.log(data);
+    const inName = document.querySelector('#byName');
     inName.addEventListener("blur", (e) => {
       e.preventDefault();
       const characterName = e.target.value;
 
-      const charFilByName = this.characters
-        .filter(character => character.name === characterName);
+      const charFilByName = data.filter(character => character.name === characterName);
       
       this.update(charFilByName);
     });
   }
 
-  creatDataOptions(characters){
-    const dataList = this.root.querySelector('.filters datalist');
-    
-    characters.forEach(character => {
-      const option = document.createElement('option');
-      option.value = `${character.name}`;
-
-      dataList.appendChild(option);
-    });
-  }
-
-  filterElementsMobile(){
+  /*filterElementsMobile(){
     const formMobal = this.root.querySelector('.modal-filter-content form');
 
     formMobal.addEventListener("submit", (e) => {
@@ -180,9 +185,9 @@ export class CharactersView extends Characters{
 
       this.root.querySelector('#app .modal-filters').style.display = 'none';
     });
-  }
+  }*/
 
-  filterElementsDesk(){
+  /*filterElementsDesk(){
     const inSpecie = this.root.querySelector('#formDesk');
 
     inSpecie.addEventListener("change", (e) => {
@@ -191,9 +196,9 @@ export class CharactersView extends Characters{
       .filter(character => character[termFill] === e.target.value);
       this.update(elementsFill);
     });
-  }
+  }*/
 
-  changeCharDetails(character){
+  /*changeCharDetails(character){
     //console.log(character)
     this.root.querySelector('.details-img img').src = `${character.image}`;
     this.root.querySelector('.details-img img').alt = `Imagem de ${character.name}`;
@@ -218,6 +223,22 @@ export class CharactersView extends Characters{
         const href = event.target.attributes.href.value;
         this.route(href, null);
       });
+    });
+  }*/
+}
+
+export class LocationsView extends Characters{
+  static update(data){
+    document.querySelector('.locations-content').innerHTML = '';
+    data.forEach(location => {
+      document.querySelector('.locations-content').innerHTML += `
+        <div class="card-location">
+          <div class="location-info">
+            <p class="location-nome">${location.name}</p>
+            <span class="location-type">${location.type}</span>
+          </div>
+        </div>
+      `
     });
   }
 }
