@@ -2,13 +2,13 @@ import * as advFilter from "./toggleModal.js";
 import { CharactersData } from "./CharactersData.js";
 import { Router } from "./Router.js";
 
-export class Characters{
+export class Characters extends Router{
   characters = [];
   locations = [];
   routes = {};
   root;
   constructor(){
-    //super();
+    super();
     //this.addRoute("/", "../pages/home.html");
     //this.addRoute("/charDetails", "../pages/charDetails.html");
     //this.addRoute("/locations", "../pages/locations.html");
@@ -27,12 +27,12 @@ export class Characters{
 
   update(data){}
 
-  static creatDataOptions(characters){
+  static creatDataOptions(data){
     const dataList = document.querySelector('.filters datalist');
     
-    characters.forEach(character => {
+    data.forEach(data => {
       const option = document.createElement('option');
-      option.value = `${character.name}`;
+      option.value = `${data.name}`;
 
       dataList.appendChild(option);
     });
@@ -162,8 +162,8 @@ export class CharactersView extends Characters{
     });
   }
 
-  /*filterElementsMobile(){
-    const formMobal = this.root.querySelector('.modal-filter-content form');
+  static filterElementsMobile(data){
+    const formMobal = document.querySelector('.modal-filter-content form');
 
     formMobal.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -176,27 +176,27 @@ export class CharactersView extends Characters{
         }
       }
 
-      const charactersFill = this.characters.filter(character => {
-        return character.species === valoresSelect.species &&
-               character.gender === valoresSelect.gender &&
-               character.status === valoresSelect.status 
+      const charactersFill = data.filter(data => {
+        return data.species === valoresSelect.species &&
+               data.gender === valoresSelect.gender &&
+               data.status === valoresSelect.status 
       });
       this.update(charactersFill);
 
-      this.root.querySelector('#app .modal-filters').style.display = 'none';
+      document.querySelector('#app .modal-filters').style.display = 'none';
     });
-  }*/
+  }
 
-  /*filterElementsDesk(){
-    const inSpecie = this.root.querySelector('#formDesk');
+  static filterElementsDesk(data){
+    const inSpecie = document.querySelector('#formDesk');
 
     inSpecie.addEventListener("change", (e) => {
       const termFill = e.target.dataset.fill;
-      const elementsFill = this.characters
-      .filter(character => character[termFill] === e.target.value);
+      const elementsFill = data.filter(data => data[termFill] === e.target.value);
+      
       this.update(elementsFill);
     });
-  }*/
+  }
 
   /*changeCharDetails(character){
     //console.log(character)
@@ -239,6 +239,103 @@ export class LocationsView extends Characters{
           </div>
         </div>
       `
+    });
+  }
+
+  static creatDataOptions(data){
+    const dataList = document.querySelector('.filters datalist');
+
+    const inTypeMob = document.querySelector('form #type');
+    const inDimensionMob = document.querySelector('form #dimension');
+    
+    const inTypeDesk = document.querySelector('#inType');
+    const inDimensionDesk = document.querySelector('#inDimension');
+    
+    data.forEach(data => {
+      const option = document.createElement('option');
+      option.value = `${data.name}`;
+
+      dataList.appendChild(option);
+    });
+
+    data.forEach(data => {
+      const option = document.createElement('option');
+      option.value = `${data.type}`;
+      option.textContent = `${data.type}`;
+
+      inTypeMob.appendChild(option);
+    });
+
+    data.forEach(data => {
+      const option = document.createElement('option');
+      option.value = `${data.type}`;
+      option.textContent = `${data.type}`;
+
+      inTypeDesk.appendChild(option);
+    });
+
+    data.forEach(data => {
+      const option = document.createElement('option');
+      option.value = `${data.dimension}`;
+      option.textContent = `${data.dimension}`;
+
+      inDimensionMob.appendChild(option);
+    });
+
+    data.forEach(data => {
+      const option = document.createElement('option');
+      option.value = `${data.dimension}`;
+      option.textContent = `${data.dimension}`;
+
+      inDimensionDesk.appendChild(option);
+    });
+  }
+
+  static filterByName(data){
+    console.log(data);
+    const inName = document.querySelector('#byName');
+    inName.addEventListener("blur", (e) => {
+      e.preventDefault();
+      const characterName = e.target.value;
+
+      const charFilByName = data.filter(character => character.name === characterName);
+      
+      this.update(charFilByName);
+    });
+  }
+
+  static filterElementsMobile(locations){
+    const formMobal = document.querySelector('.modal-filter-content form');
+
+    formMobal.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const valoresSelect = {};
+
+      for(let element of formMobal.elements){
+        if(element.tagName === 'SELECT') {
+          valoresSelect[element.name] = element.value;
+        }
+      }
+
+      const locationsFill = locations.filter(location => {
+        return location.type === valoresSelect.type &&
+               location.dimension === valoresSelect.dimension 
+      });
+      this.update(locationsFill);
+
+      document.querySelector('#app .modal-filters').style.display = 'none';
+    });
+  }
+
+  static filterElementsDesk(data){
+    const form = document.querySelector('#formDesk');
+
+    form.addEventListener("change", (e) => {
+      const termFill = e.target.dataset.fill;
+      const elementsFill = data.filter(data => data[termFill] === e.target.value);
+      
+      this.update(elementsFill);
     });
   }
 }

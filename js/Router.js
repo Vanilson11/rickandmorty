@@ -1,6 +1,7 @@
 import { Characters, LocationsView } from "./Personagens.js";
 import { CharactersView } from "./Personagens.js";
 import { CharactersData } from "./CharactersData.js";
+import * as advFill from "./toggleModal.js"
 
 export class Router{
   data = [];
@@ -42,9 +43,15 @@ export class Router{
         //this.getData();
 
         const data = await this.getCharacters();
+
+        advFill.openAdvancedFilter();
+        advFill.closeAdvancedFilters();
+
         CharactersView.update(data);
-        CharactersView.filterByName(data);
         Characters.creatDataOptions(data);
+        CharactersView.filterByName(data);
+        CharactersView.filterElementsMobile(data);
+        CharactersView.filterElementsDesk(data);
       });
     } else if(pathname === "/locations"){
       fetch(route).then(data => data.text()).then(async html => {
@@ -52,9 +59,15 @@ export class Router{
         document.querySelector('#app').innerHTML = html;
         
         const locations = await this.getLocations();
+
+        advFill.openAdvancedFilter();
+        advFill.closeAdvancedFilters();
+
         LocationsView.update(locations);
-        CharactersView.filterByName(locations);
-        Characters.creatDataOptions(locations);
+        LocationsView.filterByName(locations);
+        LocationsView.creatDataOptions(locations);
+        LocationsView.filterElementsMobile(locations);
+        LocationsView.filterElementsDesk(locations);
       });
     } else {
       fetch(route).then(data => data.text()).then(html => {

@@ -8,9 +8,9 @@
         <div class="byName">
           <label for="fillterName" class="sr-only">Filter by name...</label>
           <i class="ph ph-magnifying-glass"></i>
-          <input list="personagens" name="byName" id="byName" placeholder="Filter by name...">
+          <input list="locations" name="byName" id="byName" placeholder="Filter by name...">
         </div>
-        <datalist id="personagens"></datalist>
+        <datalist id="locations"></datalist>
   
         <div class="advancedFilters">
           <button>
@@ -21,48 +21,18 @@
   
         <form id="formDesk">
           <div class="type">
-            <label for="inType" class="sr-only">Espécie do personagem</label>
-            <select name="inType" id="inType" data-fill="type">
-              <option value="Human">Human</option>
-              <option value="Alien">Alien</option>
+            <label for="type" class="sr-only">Espécie do personagem</label>
+            <select name="type" id="inType" data-fill="type">
+              
             </select>
           </div>
-          <div class="demension">
-            <label for="inDimension" class="sr-only">Gênero do personagem</label>
-            <select name="inDimension" id="inDimension" data-fill="dimension">
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="unknown">unknown</option>
+          <div class="dimension">
+            <label for="dimension" class="sr-only">Gênero do personagem</label>
+            <select name="dimension" id="inDimension" data-fill="dimension">
+              
             </select>
           </div>
         </form>
-      </div>
-  
-      <div class="modal-filters">
-        <div class="modal-filter-content">
-          <div class="head-fiter-content">
-            <span>Filters</span>
-            <p>&times;</p>
-          </div>
-          <form action="">
-            <div class="type">
-              <label for="type" class="sr-only">Espécie do personagem</label>
-              <select name="type" id="type" data-fill="type">
-                <option value="Human">Human</option>
-                <option value="Alien">Alien</option>
-              </select>
-            </div>
-            <div class="dimension">
-              <label for="dimension" class="sr-only">Gênero do personagem</label>
-              <select name="dimension" id="dimension" data-fill="dimension">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="unknown">unknown</option>
-              </select>
-            </div>
-            <input type="submit" value="Aplly">
-          </form>
-        </div>
       </div>
   </div>
   
@@ -81,5 +51,29 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="modal-filters">
+  <div class="modal-filter-content">
+    <div class="head-fiter-content">
+      <span>Filters</span>
+      <p>&times;</p>
+    </div>
+    <form action="">
+      <div class="type">
+        <label for="type" class="sr-only">Espécie do personagem</label>
+        <select name="type" id="type" data-fill="type">
+          
+        </select>
+      </div>
+      <div class="dimension">
+        <label for="dimension" class="sr-only">Gênero do personagem</label>
+        <select name="dimension" id="dimension" data-fill="dimension">
+          
+        </select>
+      </div>
+      <input type="submit" value="Aplly">
+    </form>
   </div>
 </div>
