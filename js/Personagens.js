@@ -80,15 +80,7 @@ export class Characters extends Router{
     this.handlePage(char);
   }*/
 
-  /*changeElementsDetails(character){
-    this.goBackHome();
-    document.querySelector('.details-img img').src = `${character.image}`;
-    document.querySelector('.details-img img').alt = `Imagem de ${character.name}`;
-    document.querySelector('.char-name span').textContent = `${character.name}`;
-    document.querySelector('.informations .infoGender').textContent = `${character.gender}`;
-    document.querySelector('.informations .infoStatus').textContent = `${character.status}`;
-    document.querySelector('.informations .infoSpecie').textContent = `${character.species}`;
-  }*/
+  
 
   //filterByName(){};
 
@@ -129,24 +121,36 @@ export class CharactersView extends Characters{
       `
     });
 
-    //const elementsDetails = this.root.querySelectorAll('.card-personagem .personagem-img');
-    //this.charDetails(elementsDetails);
+    const elementsDetails = document.querySelectorAll('.card-personagem .personagem-img');
+    CharactersView.charDetails(elementsDetails);
   }
 
-  charDetails(elementsDetails){
+  static async charDetails(elementsDetails){
     elementsDetails.forEach(element => {
-      element.addEventListener("click", (e) => {
-        e.preventDefault();
+      element.addEventListener("click", async (e) => {
         const { parentNode } = e.target;
         const href = parentNode.attributes.href.value;
         const { nextElementSibling } = parentNode;
         const charName = nextElementSibling.querySelector('p').textContent;
 
-        const char = this.characters.find(char => char.name === charName);
+        const characters = await CharactersData.getCharacters();
+        const char = characters.find(char => char.name === charName);
 
-        this.route(href, char);
+        Router.route(href, char);
       });
     });
+  }
+
+  static changeElementsDetails(character){
+    const teste = new CharactersView("#app");
+    teste.goBackHome();
+    //this.goBackHome();
+    document.querySelector('.details-img img').src = `${character.image}`;
+    document.querySelector('.details-img img').alt = `Imagem de ${character.name}`;
+    document.querySelector('.char-name span').textContent = `${character.name}`;
+    document.querySelector('.informations .infoGender').textContent = `${character.gender}`;
+    document.querySelector('.informations .infoStatus').textContent = `${character.status}`;
+    document.querySelector('.informations .infoSpecie').textContent = `${character.species}`;
   }
 
   static filterByName(data){
@@ -208,12 +212,7 @@ export class CharactersView extends Characters{
     this.root.querySelector('.informations .infoSpecie').textContent = `${character.species}`;
   }
 
-  goBackHome(){
-    const btn = this.root.querySelector('.btn-go-back span');
-    btn.addEventListener("click", (event) => {
-      this.route("/", null);
-    });
-  }
+  
 
   clickNavDesk(){
     const btnLink = document.querySelectorAll("[data-link]");
@@ -225,6 +224,13 @@ export class CharactersView extends Characters{
       });
     });
   }*/
+
+  goBackHome(){
+    const btn = this.root.querySelector('.btn-go-back span');
+    btn.addEventListener("click", (event) => {
+      Router.route("/", null);
+    });
+  }
 }
 
 export class LocationsView extends Characters{
@@ -233,12 +239,27 @@ export class LocationsView extends Characters{
     data.forEach(location => {
       document.querySelector('.locations-content').innerHTML += `
         <div class="card-location">
-          <div class="location-info">
-            <p class="location-nome">${location.name}</p>
-            <span class="location-type">${location.type}</span>
-          </div>
+          <p class="location-nome" href="/locationsDetails">${location.name}</p>
+          <span class="location-type">${location.type}</span>
         </div>
       `
+    });
+
+    const elementsDetails = document.querySelectorAll('.location-nome');
+    LocationsView.locationDetails(elementsDetails);
+  }
+
+  static async locationDetails(elementsDetails){
+    elementsDetails.forEach(element => {
+      element.addEventListener("click", async (e) => {
+        const locationName = e.target.textContent;
+        const href = e.target.attributes.href.value;
+        const locations = await CharactersData.getLocations();
+
+        const location = locations.filter(location => location.name === locationName);
+        
+        Router.route(href, location);
+      });
     });
   }
 

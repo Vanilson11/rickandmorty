@@ -390,21 +390,10 @@ form input[type=submit]:hover{
   box-shadow: .2rem .2rem .4rem rgba(0, 0, 0, 0.226);
 
   overflow: hidden;
-
-  cursor: pointer;
 }
 
-.locations-wrapper .card-location{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  /* background-color: rgba(221, 221, 221, 0.493); */
-  background-color: blue;
-
-  height: 12.8rem;
-
-  box-shadow: 0rem 0rem .4rem rgba(0, 0, 0, 0.37);
+.cards-wrapper .card-personagem{
+  cursor: pointer;
 }
 
 .cards-wrapper .card-personagem:hover .personagem-img img{

@@ -2,14 +2,15 @@ import "./toggleMenu.js";
 import { CharactersView } from "./Personagens.js";
 import { Router } from "./Router.js";
 
-const route = new Router();
-route.addRoute("/", "/pages/home.html");
-route.addRoute("/locations", "/pages/locations.html");
-route.addRoute("/charDetails", "/pages/charDetails.html");
+//const route = new Router();
+Router.addRoute("/", "/pages/home.html");
+Router.addRoute("/locations", "/pages/locations.html");
+Router.addRoute("/charDetails", "/pages/charDetails.html");
+Router.addRoute("/locationsDetails", "/pages/locationsDetails.html");
 
 new CharactersView("#app");
 
 //route.getData();
-route.handlePage();
+Router.handlePage();
 
-window.onpopstate = () => route.handlePage();
+window.onpopstate = () => Router.handlePage();

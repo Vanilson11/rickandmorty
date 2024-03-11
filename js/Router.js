@@ -6,31 +6,31 @@ import * as advFill from "./toggleModal.js"
 export class Router{
   data = [];
   locations = [];
-  routes = {};
+  static routes = {};
 
-  async getCharacters(){
+  static async getCharacters(){
     this.data = await CharactersData.getCharacters();
     return this.data;
     //CharactersView.update(this.data);
     //CharactersView.filterByName(this.data);
   }
 
-  async getLocations(){
+  static async getLocations(){
     this.locations = await CharactersData.getLocations();
     return this.locations;
   }
 
-  addRoute(href, link){
+  static addRoute(href, link){
     this.routes[href] = link;
   }
 
-  async route(href, character){
+  static async route(href, character){
     window.history.pushState({}, "", href);
 
     this.handlePage(character);
   }
 
-  async handlePage(character){
+  static async handlePage(character){
     const { pathname } = window.location;
     const route = this.routes[pathname];
     console.log(pathname);
@@ -70,9 +70,11 @@ export class Router{
         LocationsView.filterElementsDesk(locations);
       });
     } else {
-      fetch(route).then(data => data.text()).then(html => {
+      fetch(route).then(data => data.text()).then(async html => {
         document.querySelector('#app').innerHTML = '';
         document.querySelector('#app').innerHTML = html;
+
+        //CharactersView.changeElementsDetails(character);
       });
     }
   }

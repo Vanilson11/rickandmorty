@@ -24,8 +24,10 @@ body{
 
 .locations-wrapper .locations-content .card-location{
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: .6rem;
 
   background-color: rgba(221, 221, 221, 0.493);
 
@@ -34,25 +36,19 @@ body{
   box-shadow: 0rem 0rem .4rem rgba(0, 0, 0, 0.37);
 }
 
-.card-location .location-info{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: .6rem;
-}
-
-.location-info p{
+.card-location p{
   text-align: center;
-  
+
   font-family: var(--ff-secondary);
   font-size: 2rem;
   font-weight: 500;
   line-height: 3rem;
   letter-spacing: .15rem;
+
+  cursor: pointer;
 }
 
-.location-info span{
+.card-location span{
   font-family: var(--ff-secondary);
   font-size: 1.4rem;
   line-height: 2.1rem;
