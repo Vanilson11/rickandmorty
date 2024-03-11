@@ -74,7 +74,7 @@ export class Router{
         document.querySelector('#app').innerHTML = '';
         document.querySelector('#app').innerHTML = html;
 
-        //CharactersView.changeElementsDetails(character);
+        CharactersView.changeElementsDetails(character);
       });
     }
   }

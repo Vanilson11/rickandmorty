@@ -1,0 +1,81 @@
+:root{
+  font-size: 52.5%;
+  --ff-principal: "Karla", sans-serif;
+  --ff-secondary: "Roboto", sans-serif;
+}
+
+body{
+  font-size: 1.6rem;
+}
+
+.locations-header{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.locations-header .btn-go-back{
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+}
+
+.locations-header .btn-go-back p{
+  font-family: var(--ff-principal);
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.locations-header .btn-go-back span{
+  font-size: 1.8rem;
+
+  cursor: pointer;
+}
+
+.locations-header .location-name{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.locations-header .location-name h2{
+  font-family: var(--ff-secondary);
+  font-size: 3rem;
+  font-weight: 400;
+  color: #081F32;
+}
+
+.info-location{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.info-location .location-type,
+.info-location .location-dimension{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: .6rem;
+}
+
+.info-location .location-type h3,
+.info-location .location-dimension h3{
+  font-family: var(--ff-secondary);
+  font-size: 1.6rem;
+  font-weight: bold;
+  line-height: 2.4rem;
+  letter-spacing: .1rem;
+  color: #081F32;
+}
+
+.info-location .location-type span,
+.info-location .location-dimension span{
+  font-family: var(--ff-secondary);
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2rem;
+  letter-spacing: .2rem;
+  color: #6E798C;
+}
