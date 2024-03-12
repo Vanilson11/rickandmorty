@@ -24,13 +24,13 @@ export class Router{
     this.routes[href] = link;
   }
 
-  static async route(href, character){
+  static async route(href, datas){
     window.history.pushState({}, "", href);
 
-    this.handlePage(character);
+    this.handlePage(datas);
   }
 
-  static async handlePage(character){
+  static async handlePage(datas){
     const { pathname } = window.location;
     const route = this.routes[pathname];
     console.log(pathname);
@@ -74,7 +74,8 @@ export class Router{
         document.querySelector('#app').innerHTML = '';
         document.querySelector('#app').innerHTML = html;
 
-        CharactersView.changeElementsDetails(character);
+        console.log(datas);
+        LocationsView.changeElementsDetails(datas);
       });
     }
   }

@@ -256,7 +256,9 @@ export class LocationsView extends Characters{
         const href = e.target.attributes.href.value;
         const locations = await CharactersData.getLocations();
 
-        const location = locations.filter(location => location.name === locationName);
+        const location = locations.find(location => location.name === locationName);
+
+        //console.log(location)
         
         Router.route(href, location);
       });
@@ -358,5 +360,14 @@ export class LocationsView extends Characters{
       
       this.update(elementsFill);
     });
+  }
+
+  static changeElementsDetails(location){
+    const teste = new CharactersView("#app");
+    teste.goBackHome();
+    
+    document.querySelector('.location-name h2').textContent = `${location.name}`;
+    document.querySelector('.location-type h3').textContent = `${location.type}`;
+    document.querySelector('.location-dimension h3').textContent = `${location.dimension}`;
   }
 }
