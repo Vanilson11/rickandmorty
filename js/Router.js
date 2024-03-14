@@ -11,8 +11,6 @@ export class Router{
   static async getCharacters(){
     this.data = await CharactersData.getCharacters();
     return this.data;
-    //CharactersView.update(this.data);
-    //CharactersView.filterByName(this.data);
   }
 
   static async getLocations(){
@@ -33,8 +31,6 @@ export class Router{
   static async handlePage(datas){
     const { pathname } = window.location;
     const route = this.routes[pathname];
-    console.log(pathname);
-    console.log(route);
 
     if(pathname === "/"){
       fetch(route).then(data => data.text()).then(async html => {
@@ -69,13 +65,23 @@ export class Router{
         LocationsView.filterElementsMobile(locations);
         LocationsView.filterElementsDesk(locations);
       });
-    } else {
+    } else if(pathname === "/locationsDetails") {
       fetch(route).then(data => data.text()).then(async html => {
         document.querySelector('#app').innerHTML = '';
         document.querySelector('#app').innerHTML = html;
 
-        console.log(datas);
-        LocationsView.changeElementsDetails(datas);
+        LocationsView.changeElementsDetails(LocationsView.location);
+        const resData = LocationsView.residentsData;
+        console.log(resData);
+        LocationsView.updateResidents(resData);
+        //LocationsView.updateResidents()
+      });
+    } else if(pathname === "/charDetails") {
+      fetch(route).then(data => data.text()).then(async html => {
+        document.querySelector('#app').innerHTML = '';
+        document.querySelector('#app').innerHTML = html;
+
+        CharactersView.changeElementsDetails(datas);
       });
     }
   }

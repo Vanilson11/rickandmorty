@@ -1,4 +1,3 @@
-import * as advFilter from "./toggleModal.js";
 import { CharactersData } from "./CharactersData.js";
 import { Router } from "./Router.js";
 
@@ -9,23 +8,14 @@ export class Characters extends Router{
   root;
   constructor(){
     super();
-    //this.addRoute("/", "../pages/home.html");
-    //this.addRoute("/charDetails", "../pages/charDetails.html");
-    //this.addRoute("/locations", "../pages/locations.html");
-    
     this.load();
-    //window.onpopstate = () => this.handlePage();
-    //this.realoadOnCharDetails();
   }
 
   async load(){
     this.characters = await CharactersData.getCharacters();
     
     this.locations = await CharactersData.getLocations();
-    //this.handlePage();
   }
-
-  update(data){}
 
   static creatDataOptions(data){
     const dataList = document.querySelector('.filters datalist');
@@ -37,54 +27,6 @@ export class Characters extends Router{
       dataList.appendChild(option);
     });
   }
-
-  /*addRoute(page, href){
-    this.routes[page] = href;
-  }*/
-
-  /*handlePage(char){
-    const { pathname } = window.location;
-    const route = this.routes[pathname];
-
-    if(pathname === "/"){
-      fetch(route).then(data => data.text()).then(html => {
-        document.querySelector('#app').innerHTML = '';
-        document.querySelector('#app').innerHTML = html;
-        this.update(this.characters);
-        advFilter.openAdvancedFilter();
-        advFilter.closeAdvancedFilters();
-        this.filterByName();
-        this.creatDataOptions(this.characters);
-        this.filterElementsMobile();
-        this.filterElementsDesk();
-      });
-    } else if(pathname === "/locations"){
-      fetch(route).then(data => data.text()).then(html => {
-        document.querySelector('#app').innerHTML = '';
-        document.querySelector('#app').innerHTML = html;
-
-      });
-    } else {
-      fetch(route).then(data => data.text()).then(html => {
-        document.querySelector('#app').innerHTML = '';
-        document.querySelector('#app').innerHTML = html;
-        this.changeElementsDetails(char);
-      });
-    }
-
-  }*/
-
-  /*route(href, char){
-    window.history.pushState({}, "", href);
-
-    this.handlePage(char);
-  }*/
-
-  
-
-  //filterByName(){};
-
-  //creatDataOptions(){};
 
   /*realoadOnCharDetails(){
     window.addEventListener("beforeunload", (event) => {
@@ -101,7 +43,6 @@ export class CharactersView extends Characters{
   constructor(root){
     super();
     this.root = document.querySelector(root);
-    //this.clickNavDesk();
   }
 
   static update(characters){
@@ -144,7 +85,7 @@ export class CharactersView extends Characters{
   static changeElementsDetails(character){
     const teste = new CharactersView("#app");
     teste.goBackHome();
-    //this.goBackHome();
+    
     document.querySelector('.details-img img').src = `${character.image}`;
     document.querySelector('.details-img img').alt = `Imagem de ${character.name}`;
     document.querySelector('.char-name span').textContent = `${character.name}`;
@@ -202,29 +143,6 @@ export class CharactersView extends Characters{
     });
   }
 
-  /*changeCharDetails(character){
-    //console.log(character)
-    this.root.querySelector('.details-img img').src = `${character.image}`;
-    this.root.querySelector('.details-img img').alt = `Imagem de ${character.name}`;
-    this.root.querySelector('.char-name span').textContent = `${character.name}`;
-    this.root.querySelector('.informations .infoGender').textContent = `${character.gender}`;
-    this.root.querySelector('.informations .infoStatus').textContent = `${character.status}`;
-    this.root.querySelector('.informations .infoSpecie').textContent = `${character.species}`;
-  }
-
-  
-
-  clickNavDesk(){
-    const btnLink = document.querySelectorAll("[data-link]");
-    btnLink.forEach(btn => {
-      btn.addEventListener("click", (event) => {
-        //event.preventDefault();
-        const href = event.target.attributes.href.value;
-        this.route(href, null);
-      });
-    });
-  }*/
-
   goBackHome(){
     const btn = this.root.querySelector('.btn-go-back span');
     btn.addEventListener("click", (event) => {
@@ -234,6 +152,41 @@ export class CharactersView extends Characters{
 }
 
 export class LocationsView extends Characters{
+  static residentsData = [];
+  static location;
+
+  static locationsData = this.getLocations();
+
+  static async getLocations(){
+    this.locationsData = await Router.getLocations();
+    return this.locationsData;
+  }
+
+  static filterLocation(data){
+    const { residents } = data;
+    
+    this.getResidents(residents);
+
+    //return location;
+  }
+
+  static getResidents(residents){
+    try{
+      const resData = [];
+      residents.forEach(async resident => {
+        try{
+          const respo = await fetch(resident);
+          const respConvertida = await respo.json();
+
+          resData.push(respConvertida);
+        }catch(error){}
+      });
+      this.residentsData = resData;
+    }catch(error){
+
+    }
+  }
+
   static update(data){
     document.querySelector('.locations-content').innerHTML = '';
     data.forEach(location => {
@@ -256,13 +209,20 @@ export class LocationsView extends Characters{
         const href = e.target.attributes.href.value;
         const locations = await CharactersData.getLocations();
 
-        const location = locations.find(location => location.name === locationName);
-
-        //console.log(location)
+        this.location = locations.find(location => location.name === locationName);
+        this.filterLocation(this.location);
         
-        Router.route(href, location);
+        Router.route(href, this.location);
       });
     });
+  }
+
+  static changeElementsDetails(location){
+    this.goBackHome();
+    
+    document.querySelector('.location-name h2').textContent = `${location.name}`;
+    document.querySelector('.location-type h3').textContent = `${location.type}`;
+    document.querySelector('.location-dimension h3').textContent = `${location.dimension}`;
   }
 
   static creatDataOptions(data){
@@ -315,7 +275,6 @@ export class LocationsView extends Characters{
   }
 
   static filterByName(data){
-    console.log(data);
     const inName = document.querySelector('#byName');
     inName.addEventListener("blur", (e) => {
       e.preventDefault();
@@ -362,12 +321,31 @@ export class LocationsView extends Characters{
     });
   }
 
-  static changeElementsDetails(location){
-    const teste = new CharactersView("#app");
-    teste.goBackHome();
-    
-    document.querySelector('.location-name h2').textContent = `${location.name}`;
-    document.querySelector('.location-type h3').textContent = `${location.type}`;
-    document.querySelector('.location-dimension h3').textContent = `${location.dimension}`;
+  static async updateResidents(data){
+    document.querySelector('.residents-content').innerHTML = '';
+
+    data.forEach(resident => {
+      document.querySelector('.residents-content').innerHTML += `
+      <div class="card-personagem">
+        <div class="personagem-img" href="/charDetails">
+          <img src="${resident.image}" alt="Imagem de ${resident.name}">
+        </div>
+        <div class="personagem-info">
+          <p class="nome">${resident.name}</p>
+          <span class="specie">${resident.species}</span>
+        </div>
+      </div>
+      `
+    });
+
+    const elementsDetails = document.querySelectorAll('.card-personagem .personagem-img');
+    //CharactersView.charDetails(elementsDetails);
+  }
+
+  static goBackHome(){
+    const btn = document.querySelector('.btn-go-back span');
+    btn.addEventListener("click", (event) => {
+      Router.route("/locations", null);
+    });
   }
 }

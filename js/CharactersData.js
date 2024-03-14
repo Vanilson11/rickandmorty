@@ -5,6 +5,7 @@ export class CharactersData{
       const res = await fetch("https://rickandmortyapi.com/api/character");
       const respConvertida = await res.json();
       const { results } = await respConvertida;
+      
       return results;
     }catch(error){
 
