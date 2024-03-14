@@ -83,6 +83,11 @@ export class Router{
 
         CharactersView.changeElementsDetails(datas);
       });
+    } else if(pathname === "/episodes"){
+      fetch(route).then(data => data.text()).then(async html => {
+        document.querySelector('#app').innerHTML = '';
+        document.querySelector('#app').innerHTML = html;
+      });
     }
   }
 }

@@ -188,17 +188,18 @@ export class LocationsView extends Characters{
   }
 
   static update(data){
-    document.querySelector('.locations-content').innerHTML = '';
+    document.querySelector('.locationsEpisodes-content').innerHTML = '';
     data.forEach(location => {
-      document.querySelector('.locations-content').innerHTML += `
-        <div class="card-location">
-          <p class="location-nome" href="/locationsDetails">${location.name}</p>
-          <span class="location-type">${location.type}</span>
-        </div>
+      document.querySelector('.locationsEpisodes-content').innerHTML += `
+      <div class="card-locationEpisode">
+        <p class="locationEpisode-nome" href="/locationsDetails">${location.name}</p>
+        <span class="location-type epData">${location.type}</span>
+        <span class="epNumber"></span>
+      </div>
       `
     });
 
-    const elementsDetails = document.querySelectorAll('.location-nome');
+    const elementsDetails = document.querySelectorAll('.locationEpisode-nome');
     LocationsView.locationDetails(elementsDetails);
   }
 
