@@ -1,4 +1,4 @@
-import { Characters, LocationsView } from "./Personagens.js";
+import { Characters, EpisodesView, LocationsView } from "./Personagens.js";
 import { CharactersView } from "./Personagens.js";
 import { CharactersData } from "./CharactersData.js";
 import * as advFill from "./toggleModal.js"
@@ -31,6 +31,7 @@ export class Router{
   static async handlePage(datas){
     const { pathname } = window.location;
     const route = this.routes[pathname];
+    console.log(pathname)
 
     if(pathname === "/"){
       fetch(route).then(data => data.text()).then(async html => {
@@ -87,6 +88,8 @@ export class Router{
       fetch(route).then(data => data.text()).then(async html => {
         document.querySelector('#app').innerHTML = '';
         document.querySelector('#app').innerHTML = html;
+
+        EpisodesView.showEpisodes()
       });
     }
   }

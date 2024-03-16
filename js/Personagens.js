@@ -36,6 +36,10 @@ export class Characters extends Router{
       window.location.replace(teste);
     })
   }*/
+
+  clickNav(){
+
+  }
 }
 
 //classe para manipular o HTML
@@ -348,5 +352,11 @@ export class LocationsView extends Characters{
     btn.addEventListener("click", (event) => {
       Router.route("/locations", null);
     });
+  }
+}
+
+export class EpisodesView extends Characters{
+  static showEpisodes(){
+    CharactersData.getEpisodes();
   }
 }
