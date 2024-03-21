@@ -159,36 +159,24 @@ export class LocationsView extends Characters{
   static residentsData = [];
   static location;
 
-  static locationsData = this.getLocations();
-
-  static async getLocations(){
-    this.locationsData = await Router.getLocations();
-    return this.locationsData;
-  }
-
-  static filterLocation(data){
+  static async filterLocation(data){
     const { residents } = data;
     
-    this.getResidents(residents);
-
-    //return location;
+    this.residentsData = await this.fetchAllData(residents);
+    this.updateResidents(this.residentsData);
   }
 
-  static getResidents(residents){
-    try{
-      const resData = [];
-      residents.forEach(async resident => {
-        try{
-          const respo = await fetch(resident);
-          const respConvertida = await respo.json();
+  static async fetchData(link){
+    const respo = await fetch(link);
+    const data = await respo.json();
+    return data;
+  }
 
-          resData.push(respConvertida);
-        }catch(error){}
-      });
-      this.residentsData = resData;
-    }catch(error){
-
-    }
+  static async fetchAllData(links){
+    const promisses = links.map(link => this.fetchData(link));
+    const dataArray = await Promise.all(promisses);
+    console.log(dataArray)
+    return dataArray
   }
 
   static update(data){
@@ -212,6 +200,7 @@ export class LocationsView extends Characters{
       element.addEventListener("click", async (e) => {
         const locationName = e.target.textContent;
         const href = e.target.attributes.href.value;
+
         const locations = await CharactersData.getLocations();
 
         this.location = locations.find(location => location.name === locationName);
@@ -356,7 +345,34 @@ export class LocationsView extends Characters{
 }
 
 export class EpisodesView extends Characters{
-  static showEpisodes(){
-    CharactersData.getEpisodes();
+  static charEpisodes = [];
+
+  static async fetchData(link){
+    const respo = await fetch(link);
+    const data = await respo.json();
+    return data;
+  }
+
+  static async fetchAllData(links){
+    const promisses = links.map(link => this.fetchData(link));
+    const dataArray = await Promise.all(promisses);
+    console.log(dataArray)
+    return dataArray;
+  }
+
+  static async update(data){
+    document.querySelector('.locationsEpisodes-content').innerHTML = '';
+    data.forEach(episode => {
+      document.querySelector('.locationsEpisodes-content').innerHTML += `
+      <div class="card-locationEpisode">
+        <p class="locationEpisode-nome" href="/locationsDetails">${episode.name}</p>
+        <span class="location-type epData">${episode.air_date}</span>
+        <span class="epNumber">${episode.episode}</span>
+      </div>
+      `
+    });
+
+    const elementsDetails = document.querySelectorAll('.locationEpisode-nome');
+    LocationsView.locationDetails(elementsDetails);
   }
 }

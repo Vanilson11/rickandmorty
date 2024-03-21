@@ -1,6 +1,7 @@
 export class CharactersData{
   static locations = [];
   static episodesData = [];
+
   static async getCharacters(){
     try{
       const res = await fetch("https://rickandmortyapi.com/api/character");
@@ -36,18 +37,14 @@ export class CharactersData{
         
         for(let i = 0; i < episode.length; i++){
           if(this.episodesData[i] === `https://rickandmortyapi.com/api/episode/${i + 1}`){
-            console.log('ep já existe');
             continue;
           } else{
             this.episodesData.push(episode[i]);
-            console.log('add');
           }
         }
       });
+    }catch(error){}
 
-      console.log(this.episodesData)
-    }catch(error){
-
-    }
+    return this.episodesData;
   }
 }

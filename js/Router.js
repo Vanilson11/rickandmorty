@@ -6,6 +6,7 @@ import * as advFill from "./toggleModal.js"
 export class Router{
   data = [];
   locations = [];
+  episodes = [];
   static routes = {};
 
   static async getCharacters(){
@@ -16,6 +17,12 @@ export class Router{
   static async getLocations(){
     this.locations = await CharactersData.getLocations();
     return this.locations;
+  }
+
+  static async getEps(){
+    this.episodes = await CharactersData.getEpisodes();
+    
+    return this.episodes
   }
 
   static addRoute(href, link){
@@ -72,10 +79,6 @@ export class Router{
         document.querySelector('#app').innerHTML = html;
 
         LocationsView.changeElementsDetails(LocationsView.location);
-        const resData = LocationsView.residentsData;
-        console.log(resData);
-        LocationsView.updateResidents(resData);
-        //LocationsView.updateResidents()
       });
     } else if(pathname === "/charDetails") {
       fetch(route).then(data => data.text()).then(async html => {
@@ -89,7 +92,10 @@ export class Router{
         document.querySelector('#app').innerHTML = '';
         document.querySelector('#app').innerHTML = html;
 
-        EpisodesView.showEpisodes()
+        const links = await this.getEps();
+    
+        const episodes = await EpisodesView.fetchAllData(links);
+        EpisodesView.update(episodes);
       });
     }
   }
