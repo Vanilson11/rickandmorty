@@ -39,6 +39,7 @@ export class Router{
     const { pathname } = window.location;
     const route = this.routes[pathname];
     console.log(pathname)
+    console.log(route)
 
     if(pathname === "/"){
       fetch(route).then(data => data.text()).then(async html => {
@@ -97,6 +98,14 @@ export class Router{
         const episodes = await EpisodesView.fetchAllData(links);
         EpisodesView.update(episodes);
       });
+    } else if(pathname === "/episodeDetails"){
+      fetch(route).then(data => data.text()).then(html => {
+        document.querySelector('#app').innerHTML = '';
+        document.querySelector('#app').innerHTML = html;
+
+        const update = new EpisodesView();
+        update.changeElementsDetails(datas);
+      })
     }
   }
 }

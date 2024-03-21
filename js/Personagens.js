@@ -159,11 +159,11 @@ export class LocationsView extends Characters{
   static residentsData = [];
   static location;
 
-  static async filterLocation(data){
+  static async filterLocation(data, href){
     const { residents } = data;
     
     this.residentsData = await this.fetchAllData(residents);
-    this.updateResidents(this.residentsData);
+    this.updateResidents(this.residentsData, href);
   }
 
   static async fetchData(link){
@@ -204,19 +204,19 @@ export class LocationsView extends Characters{
         const locations = await CharactersData.getLocations();
 
         this.location = locations.find(location => location.name === locationName);
-        this.filterLocation(this.location);
+        this.filterLocation(this.location, href);
         
         Router.route(href, this.location);
       });
     });
   }
 
-  static changeElementsDetails(location){
+  static changeElementsDetails(data){
     this.goBackHome();
     
-    document.querySelector('.location-name h2').textContent = `${location.name}`;
-    document.querySelector('.location-type h3').textContent = `${location.type}`;
-    document.querySelector('.location-dimension h3').textContent = `${location.dimension}`;
+    document.querySelector('.locationEpisode-name h2').textContent = `${data.name}`;
+    document.querySelector('.locationEpisode-type span').textContent = `${data.type}`;
+    document.querySelector('.locationEpisode-dimension span').textContent = `${data.dimension}`;
   }
 
   static creatDataOptions(data){
@@ -315,13 +315,13 @@ export class LocationsView extends Characters{
     });
   }
 
-  static async updateResidents(data){
-    document.querySelector('.residents-content').innerHTML = '';
+  static async updateResidents(data, href){
+    document.querySelector('.residentsCast-content').innerHTML = '';
 
     data.forEach(resident => {
-      document.querySelector('.residents-content').innerHTML += `
+      document.querySelector('.residentsCast-content').innerHTML += `
       <div class="card-personagem">
-        <div class="personagem-img" href="/charDetails">
+        <div class="personagem-img" href="${href}">
           <img src="${resident.image}" alt="Imagem de ${resident.name}">
         </div>
         <div class="personagem-info">
@@ -356,8 +356,30 @@ export class EpisodesView extends Characters{
   static async fetchAllData(links){
     const promisses = links.map(link => this.fetchData(link));
     const dataArray = await Promise.all(promisses);
-    console.log(dataArray)
+    this.charEpisodes = dataArray;
+    console.log(this.charEpisodes)
     return dataArray;
+  }
+
+  async getCharacters(data, href){
+    const { characters } = data;
+    
+    const charConver = await this.fetchAllEps(characters);
+    console.log(charConver);
+    LocationsView.updateResidents(charConver, href);
+  }
+
+  async fetchAllEps(links){
+    const promisses = links.map(link => this.fetchEp(link));
+    const dataArray = await Promise.all(promisses);
+    
+    return dataArray;
+  }
+
+  async fetchEp(link){
+    const respo = await fetch(link);
+    const data = await respo.json();
+    return data;
   }
 
   static async update(data){
@@ -365,7 +387,7 @@ export class EpisodesView extends Characters{
     data.forEach(episode => {
       document.querySelector('.locationsEpisodes-content').innerHTML += `
       <div class="card-locationEpisode">
-        <p class="locationEpisode-nome" href="/locationsDetails">${episode.name}</p>
+        <p class="locationEpisode-nome" href="/episodeDetails">${episode.name}</p>
         <span class="location-type epData">${episode.air_date}</span>
         <span class="epNumber">${episode.episode}</span>
       </div>
@@ -373,6 +395,30 @@ export class EpisodesView extends Characters{
     });
 
     const elementsDetails = document.querySelectorAll('.locationEpisode-nome');
-    LocationsView.locationDetails(elementsDetails);
+    
+    const teste = new EpisodesView()
+    teste.episodeDetails(elementsDetails);
+  }
+
+  episodeDetails(data){
+    data.forEach(element => {
+      element.addEventListener("click", (event) => {
+        const epName = event.target.textContent;
+        const href = event.target.attributes.href.value;
+        
+        const episode = EpisodesView.charEpisodes.find(ep => ep.name === epName);
+        
+        this.getCharacters(episode, href);
+        Router.route(href, episode);
+      });
+    });
+  }
+
+  changeElementsDetails(data){
+    //this.goBackHome();
+    
+    document.querySelector('.locationEpisode-name h2').textContent = `${data.name}`;
+    document.querySelector('.locationEpisode-type span').textContent = `${data.episode}`;
+    document.querySelector('.locationEpisode-dimension span').textContent = `${data.air_date}`;
   }
 }

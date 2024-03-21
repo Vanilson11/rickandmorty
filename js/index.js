@@ -8,6 +8,7 @@ Router.addRoute("/locations", "/pages/locations.html");
 Router.addRoute("/charDetails", "/pages/charDetails.html");
 Router.addRoute("/locationsDetails", "/pages/locationsDetails.html");
 Router.addRoute("/episodes", "/pages/episodes.html");
+Router.addRoute("/episodeDetails", "/pages/episodeDetails.html")
 
 new CharactersView("#app");
 

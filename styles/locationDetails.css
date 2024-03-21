@@ -8,7 +8,7 @@ body{
   font-size: 1.6rem;
 }
 
-.locations-container{
+.locationsEps-container{
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -42,35 +42,35 @@ body{
   cursor: pointer;
 }
 
-.locations-header .location-name{
+.locations-header .locationEpisode-name{
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.locations-header .location-name h2{
+.locations-header .locationEpisode-name h2{
   font-family: var(--ff-secondary);
   font-size: 3rem;
   font-weight: 400;
   color: #081F32;
 }
 
-.info-location{
+.info-locationEpisode{
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.info-location .location-type,
-.info-location .location-dimension{
+.info-locationEpisode .locationEpisode-type,
+.info-locationEpisode .locationEpisode-dimension{
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: .6rem;
 }
 
-.info-location .location-type h3,
-.info-location .location-dimension h3{
+.info-locationEpisode .locationEpisode-type h3,
+.info-locationEpisode .locationEpisode-dimension h3{
   font-family: var(--ff-secondary);
   font-size: 1.6rem;
   font-weight: bold;
@@ -79,8 +79,8 @@ body{
   color: #081F32;
 }
 
-.info-location .location-type span,
-.info-location .location-dimension span{
+.info-locationEpisode .locationEpisode-type span,
+.info-locationEpisode .locationEpisode-dimension span{
   font-family: var(--ff-secondary);
   font-size: 1.4rem;
   font-weight: 400;
@@ -89,7 +89,7 @@ body{
   color: #6E798C;
 }
 
-.residents-wrapper{
+.residentsCast-wrapper{
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -100,7 +100,7 @@ body{
   margin-top: 12rem;
 }
 
-.residents-wrapper h2{
+.residentsCast-wrapper h2{
   font-family: var(--ff-secondary);
   font-size: 2rem;
   font-weight: 600;
@@ -109,7 +109,7 @@ body{
   color: #8E8E93;
 }
 
-.residents-wrapper .residents-content{
+.residentsCast-wrapper .residentsCast-content{
   width: 100%;
   height: 100%;
 
@@ -118,7 +118,7 @@ body{
   gap: 2.4rem;
 }
 
-.residents-content .card-personagem{
+.residentsCast-content .card-personagem{
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -166,16 +166,16 @@ body{
     gap: 10rem;
   }
 
-  .residents-wrapper{
+  .residentsCast-wrapper{
     margin-top: 6.4rem;
   }
 
-  .residents-wrapper .residents-content{
+  .residentsCast-wrapper .residentsCast-content{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 
-  .info-location{
+  .info-locationEpisode{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -185,7 +185,7 @@ body{
 }
 
 @media (min-width: 1100px){
-  .locations-container{
+  .locationsEps-container{
     width: 100%;
 
     display: flex;
