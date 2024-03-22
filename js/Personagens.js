@@ -47,9 +47,9 @@ export class Characters extends Router{
 
 //classe para manipular o HTML
 export class CharactersView extends Characters{
-  constructor(root){
+  constructor(){
     super();
-    this.root = document.querySelector(root);
+    //this.root = document.querySelector(root);
   }
 
   update(characters){
@@ -155,30 +155,30 @@ export class CharactersView extends Characters{
 }
 
 export class LocationsView extends Characters{
-  static residentsData = [];
+  residentsData = [];
   static location;
 
-  static async filterLocation(data, href){
+  async filterLocation(data, href){
     const { residents } = data;
     
     this.residentsData = await this.fetchAllData(residents);
     this.updateResidents(this.residentsData, href);
   }
 
-  static async fetchData(link){
+  async fetchData(link){
     const respo = await fetch(link);
     const data = await respo.json();
     return data;
   }
 
-  static async fetchAllData(links){
+  async fetchAllData(links){
     const promisses = links.map(link => this.fetchData(link));
     const dataArray = await Promise.all(promisses);
     console.log(dataArray)
     return dataArray
   }
 
-  static update(data){
+  update(data){
     document.querySelector('.locationsEpisodes-content').innerHTML = '';
     data.forEach(location => {
       document.querySelector('.locationsEpisodes-content').innerHTML += `
@@ -191,22 +191,20 @@ export class LocationsView extends Characters{
     });
 
     const elementsDetails = document.querySelectorAll('.locationEpisode-nome');
-    LocationsView.locationDetails(elementsDetails);
+    this.locationDetails(elementsDetails, data);
   }
 
-  static async locationDetails(elementsDetails){
+  async locationDetails(elementsDetails, data){
     elementsDetails.forEach(element => {
       element.addEventListener("click", async (e) => {
         const locationName = e.target.textContent;
         const href = e.target.attributes.href.value;
 
-        const locations = await CharactersData.getLocations();
-
-        this.location = locations.find(location => location.name === locationName);
+        LocationsView.location = data.find(location => location.name === locationName);
         
-        Router.route(href, this.location);
+        Router.route(href, LocationsView.location);
         
-        this.filterLocation(this.location, href);
+        this.filterLocation(LocationsView.location, href);
       });
     });
   }
@@ -220,7 +218,7 @@ export class LocationsView extends Characters{
     document.querySelector('.locationEpisode-dimension span').textContent = `${data.dimension}`;
   }
 
-  static creatDataOptions(data){
+  creatDataOptions(data){
     const dataList = document.querySelector('.filters datalist');
 
     const inTypeMob = document.querySelector('form #type');
@@ -269,7 +267,7 @@ export class LocationsView extends Characters{
     });
   }
 
-  static filterByName(data){
+  filterByName(data){
     const inName = document.querySelector('#byName');
     inName.addEventListener("blur", (e) => {
       e.preventDefault();
@@ -281,7 +279,7 @@ export class LocationsView extends Characters{
     });
   }
 
-  static filterElementsMobile(locations){
+  filterElementsMobile(locations){
     const formMobal = document.querySelector('.modal-filter-content form');
 
     formMobal.addEventListener("submit", (e) => {
@@ -299,13 +297,14 @@ export class LocationsView extends Characters{
         return location.type === valoresSelect.type &&
                location.dimension === valoresSelect.dimension 
       });
+
       this.update(locationsFill);
 
       document.querySelector('#app .modal-filters').style.display = 'none';
     });
   }
 
-  static filterElementsDesk(data){
+  filterElementsDesk(data){
     const form = document.querySelector('#formDesk');
 
     form.addEventListener("change", (e) => {
@@ -316,7 +315,7 @@ export class LocationsView extends Characters{
     });
   }
 
-  static async updateResidents(data, href){
+  async updateResidents(data, href){
     document.querySelector('.residentsCast-content').innerHTML = '';
 
     data.forEach(resident => {

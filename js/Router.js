@@ -51,7 +51,7 @@ export class Router{
         advFill.openAdvancedFilter();
         advFill.closeAdvancedFilters();
 
-        const calls = new CharactersView("#app");
+        const calls = new CharactersView();
 
         calls.update(data);
         calls.filterByName(data);
@@ -69,11 +69,13 @@ export class Router{
         advFill.openAdvancedFilter();
         advFill.closeAdvancedFilters();
 
-        LocationsView.update(locations);
-        LocationsView.filterByName(locations);
-        LocationsView.creatDataOptions(locations);
-        LocationsView.filterElementsMobile(locations);
-        LocationsView.filterElementsDesk(locations);
+        const calls = new LocationsView();
+
+        calls.update(locations);
+        calls.filterByName(locations);
+        calls.creatDataOptions(locations);
+        calls.filterElementsMobile(locations);
+        calls.filterElementsDesk(locations);
       });
     } else if(pathname === "/locationsDetails") {
       fetch(route).then(data => data.text()).then(async html => {
@@ -87,9 +89,9 @@ export class Router{
         document.querySelector('#app').innerHTML = '';
         document.querySelector('#app').innerHTML = html;
 
-        const calls = new CharactersView("#app");
-        
-        calls.changeElementsDetails(datas)
+        const calls = new CharactersView();
+
+        calls.changeElementsDetails(datas);
       });
     } else if(pathname === "/episodes"){
       fetch(route).then(data => data.text()).then(async html => {
