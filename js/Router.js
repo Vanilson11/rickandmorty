@@ -87,7 +87,9 @@ export class Router{
         document.querySelector('#app').innerHTML = '';
         document.querySelector('#app').innerHTML = html;
 
-        CharactersView.changeElementsDetails(datas);
+        const calls = new CharactersView("#app");
+        
+        calls.changeElementsDetails(datas)
       });
     } else if(pathname === "/episodes"){
       fetch(route).then(data => data.text()).then(async html => {

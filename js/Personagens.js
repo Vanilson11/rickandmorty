@@ -71,10 +71,10 @@ export class CharactersView extends Characters{
 
     const elementsDetails = document.querySelectorAll('.card-personagem .personagem-img');
 
-    CharactersView.charDetails(elementsDetails);
+    this.charDetails(elementsDetails);
   }
 
-  static async charDetails(elementsDetails){
+  async charDetails(elementsDetails){
     elementsDetails.forEach(element => {
       element.addEventListener("click", async (e) => {
         const { parentNode } = e.target;
@@ -90,7 +90,7 @@ export class CharactersView extends Characters{
     });
   }
 
-  static changeElementsDetails(character){
+  changeElementsDetails(character){
     const btn = new Characters();
     btn.goBack("/");
     
