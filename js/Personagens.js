@@ -37,8 +37,11 @@ export class Characters extends Router{
     })
   }*/
 
-  clickNav(){
-
+  goBack(href){
+    const btn = document.querySelector('.btn-go-back span');
+    btn.addEventListener("click", () => {
+      Router.route(href, null);
+    });
   }
 }
 
@@ -87,8 +90,8 @@ export class CharactersView extends Characters{
   }
 
   static changeElementsDetails(character){
-    const teste = new CharactersView("#app");
-    teste.goBackHome();
+    const btn = new Characters();
+    btn.goBack("/");
     
     document.querySelector('.details-img img').src = `${character.image}`;
     document.querySelector('.details-img img').alt = `Imagem de ${character.name}`;
@@ -144,13 +147,6 @@ export class CharactersView extends Characters{
       const elementsFill = data.filter(data => data[termFill] === e.target.value);
       
       this.update(elementsFill);
-    });
-  }
-
-  goBackHome(){
-    const btn = this.root.querySelector('.btn-go-back span');
-    btn.addEventListener("click", (event) => {
-      Router.route("/", null);
     });
   }
 }
@@ -212,7 +208,8 @@ export class LocationsView extends Characters{
   }
 
   static changeElementsDetails(data){
-    this.goBackHome();
+    const btn = new Characters();
+    btn.goBack("/locations");
     
     document.querySelector('.locationEpisode-name h2').textContent = `${data.name}`;
     document.querySelector('.locationEpisode-type span').textContent = `${data.type}`;
@@ -335,13 +332,6 @@ export class LocationsView extends Characters{
     const elementsDetails = document.querySelectorAll('.card-personagem .personagem-img');
     //CharactersView.charDetails(elementsDetails);
   }
-
-  static goBackHome(){
-    const btn = document.querySelector('.btn-go-back span');
-    btn.addEventListener("click", (event) => {
-      Router.route("/locations", null);
-    });
-  }
 }
 
 export class EpisodesView extends Characters{
@@ -398,6 +388,8 @@ export class EpisodesView extends Characters{
     
     const teste = new EpisodesView()
     teste.episodeDetails(elementsDetails);
+    Characters.creatDataOptions(data);
+    teste.filterByName(data);
   }
 
   episodeDetails(data){
@@ -415,10 +407,22 @@ export class EpisodesView extends Characters{
   }
 
   changeElementsDetails(data){
-    //this.goBackHome();
-    
+    this.goBack("/episodes")
+
     document.querySelector('.locationEpisode-name h2').textContent = `${data.name}`;
     document.querySelector('.locationEpisode-type span').textContent = `${data.episode}`;
     document.querySelector('.locationEpisode-dimension span').textContent = `${data.air_date}`;
+  }
+
+  filterByName(data){
+    const inName = document.querySelector('#byName');
+    inName.addEventListener("blur", (e) => {
+      e.preventDefault();
+      const episodeName = e.target.value;
+
+      const epFilByName = data.filter(episode => episode.name === episodeName);
+      
+      EpisodesView.update(epFilByName);
+    });
   }
 }
