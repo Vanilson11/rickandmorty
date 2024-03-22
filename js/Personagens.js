@@ -52,7 +52,7 @@ export class CharactersView extends Characters{
     this.root = document.querySelector(root);
   }
 
-  static update(characters){
+  update(characters){
     const cardsContainer = document.querySelector('.cards-wrapper .cards-content');
     cardsContainer.innerHTML = '';
     characters.forEach(character => {
@@ -70,6 +70,7 @@ export class CharactersView extends Characters{
     });
 
     const elementsDetails = document.querySelectorAll('.card-personagem .personagem-img');
+
     CharactersView.charDetails(elementsDetails);
   }
 
@@ -101,8 +102,7 @@ export class CharactersView extends Characters{
     document.querySelector('.informations .infoSpecie').textContent = `${character.species}`;
   }
 
-  static filterByName(data){
-    console.log(data);
+  filterByName(data){
     const inName = document.querySelector('#byName');
     inName.addEventListener("blur", (e) => {
       e.preventDefault();
@@ -114,7 +114,7 @@ export class CharactersView extends Characters{
     });
   }
 
-  static filterElementsMobile(data){
+  filterElementsMobile(data){
     const formMobal = document.querySelector('.modal-filter-content form');
 
     formMobal.addEventListener("submit", (e) => {
@@ -133,13 +133,16 @@ export class CharactersView extends Characters{
                data.gender === valoresSelect.gender &&
                data.status === valoresSelect.status 
       });
-      this.update(charactersFill);
+
+      console.log(charactersFill)
 
       document.querySelector('#app .modal-filters').style.display = 'none';
+      
+      this.update(charactersFill);
     });
   }
 
-  static filterElementsDesk(data){
+  filterElementsDesk(data){
     const inSpecie = document.querySelector('#formDesk');
 
     inSpecie.addEventListener("change", (e) => {
@@ -200,9 +203,10 @@ export class LocationsView extends Characters{
         const locations = await CharactersData.getLocations();
 
         this.location = locations.find(location => location.name === locationName);
-        this.filterLocation(this.location, href);
         
         Router.route(href, this.location);
+        
+        this.filterLocation(this.location, href);
       });
     });
   }
@@ -400,8 +404,8 @@ export class EpisodesView extends Characters{
         
         const episode = EpisodesView.charEpisodes.find(ep => ep.name === epName);
         
-        this.getCharacters(episode, href);
         Router.route(href, episode);
+        this.getCharacters(episode, href);
       });
     });
   }

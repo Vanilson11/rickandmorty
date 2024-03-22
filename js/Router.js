@@ -45,18 +45,19 @@ export class Router{
       fetch(route).then(data => data.text()).then(async html => {
         document.querySelector('#app').innerHTML = '';
         document.querySelector('#app').innerHTML = html;
-        //this.getData();
 
         const data = await this.getCharacters();
 
         advFill.openAdvancedFilter();
         advFill.closeAdvancedFilters();
 
-        CharactersView.update(data);
+        const calls = new CharactersView("#app");
+
+        calls.update(data);
+        calls.filterByName(data);
+        calls.filterElementsMobile(data);
+        calls.filterElementsDesk(data);
         Characters.creatDataOptions(data);
-        CharactersView.filterByName(data);
-        CharactersView.filterElementsMobile(data);
-        CharactersView.filterElementsDesk(data);
       });
     } else if(pathname === "/locations"){
       fetch(route).then(data => data.text()).then(async html => {
