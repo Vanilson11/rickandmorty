@@ -4,8 +4,6 @@ import { Router } from "./Router.js";
 export class Characters extends Router{
   characters = [];
   locations = [];
-  routes = {};
-  root;
   constructor(){
     super();
     this.load();
@@ -15,6 +13,26 @@ export class Characters extends Router{
     this.characters = await CharactersData.getCharacters();
     
     this.locations = await CharactersData.getLocations();
+  }
+
+  async updateResidents(data, href){
+    document.querySelector('.residentsCast-content').innerHTML = '';
+
+    data.forEach(resident => {
+      document.querySelector('.residentsCast-content').innerHTML += `
+      <div class="card-personagem">
+        <div class="personagem-img" href="${href}">
+          <img src="${resident.image}" alt="Imagem de ${resident.name}">
+        </div>
+        <div class="personagem-info">
+          <p class="nome">${resident.name}</p>
+          <span class="specie">${resident.species}</span>
+        </div>
+      </div>
+      `
+    });
+
+    const elementsDetails = document.querySelectorAll('.card-personagem .personagem-img');
   }
 
   static creatDataOptions(data){
@@ -314,27 +332,6 @@ export class LocationsView extends Characters{
       this.update(elementsFill);
     });
   }
-
-  async updateResidents(data, href){
-    document.querySelector('.residentsCast-content').innerHTML = '';
-
-    data.forEach(resident => {
-      document.querySelector('.residentsCast-content').innerHTML += `
-      <div class="card-personagem">
-        <div class="personagem-img" href="${href}">
-          <img src="${resident.image}" alt="Imagem de ${resident.name}">
-        </div>
-        <div class="personagem-info">
-          <p class="nome">${resident.name}</p>
-          <span class="specie">${resident.species}</span>
-        </div>
-      </div>
-      `
-    });
-
-    const elementsDetails = document.querySelectorAll('.card-personagem .personagem-img');
-    //CharactersView.charDetails(elementsDetails);
-  }
 }
 
 export class EpisodesView extends Characters{
@@ -359,8 +356,8 @@ export class EpisodesView extends Characters{
     
     const charConver = await this.fetchAllEps(characters);
     console.log(charConver);
-    const calls = new LocationsView();
-    calls.updateResidents(charConver, href);
+  
+    this.updateResidents(charConver, href);
   }
 
   async fetchAllEps(links){
