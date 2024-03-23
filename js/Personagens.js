@@ -359,7 +359,8 @@ export class EpisodesView extends Characters{
     
     const charConver = await this.fetchAllEps(characters);
     console.log(charConver);
-    LocationsView.updateResidents(charConver, href);
+    const calls = new LocationsView();
+    calls.updateResidents(charConver, href);
   }
 
   async fetchAllEps(links){
@@ -375,7 +376,7 @@ export class EpisodesView extends Characters{
     return data;
   }
 
-  static async update(data){
+  async update(data){
     document.querySelector('.locationsEpisodes-content').innerHTML = '';
     data.forEach(episode => {
       document.querySelector('.locationsEpisodes-content').innerHTML += `
@@ -389,10 +390,8 @@ export class EpisodesView extends Characters{
 
     const elementsDetails = document.querySelectorAll('.locationEpisode-nome');
     
-    const teste = new EpisodesView()
-    teste.episodeDetails(elementsDetails);
     Characters.creatDataOptions(data);
-    teste.filterByName(data);
+    this.episodeDetails(elementsDetails);
   }
 
   episodeDetails(data){
@@ -424,8 +423,8 @@ export class EpisodesView extends Characters{
       const episodeName = e.target.value;
 
       const epFilByName = data.filter(episode => episode.name === episodeName);
-      
-      EpisodesView.update(epFilByName);
+      console.log(epFilByName)
+      this.update(epFilByName);
     });
   }
 }

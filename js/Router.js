@@ -99,9 +99,11 @@ export class Router{
         document.querySelector('#app').innerHTML = html;
 
         const links = await this.getEps();
-    
+        const calls = new EpisodesView();
         const episodes = await EpisodesView.fetchAllData(links);
-        EpisodesView.update(episodes);
+
+        calls.update(episodes);
+        calls.filterByName(episodes);
       });
     } else if(pathname === "/episodeDetails"){
       fetch(route).then(data => data.text()).then(html => {
