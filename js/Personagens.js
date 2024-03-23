@@ -35,6 +35,19 @@ export class Characters extends Router{
     const elementsDetails = document.querySelectorAll('.card-personagem .personagem-img');
   }
 
+  async fetchAllData(links){
+    const promisses = links.map(link => this.fetchData(link));
+    const dataArray = await Promise.all(promisses);
+    
+    return dataArray;
+  }
+
+  async fetchData(link){
+    const respo = await fetch(link);
+    const data = await respo.json();
+    return data;
+  }
+
   static creatDataOptions(data){
     const dataList = document.querySelector('.filters datalist');
     
@@ -67,10 +80,10 @@ export class Characters extends Router{
 export class CharactersView extends Characters{
   constructor(){
     super();
-    //this.root = document.querySelector(root);
   }
 
   update(characters){
+    console.log(characters);
     const cardsContainer = document.querySelector('.cards-wrapper .cards-content');
     cardsContainer.innerHTML = '';
     characters.forEach(character => {
@@ -108,7 +121,8 @@ export class CharactersView extends Characters{
     });
   }
 
-  changeElementsDetails(character){
+  async changeElementsDetails(character){
+    const { origin, location, episode } = character;
     const btn = new Characters();
     btn.goBack("/");
     
@@ -118,6 +132,20 @@ export class CharactersView extends Characters{
     document.querySelector('.informations .infoGender').textContent = `${character.gender}`;
     document.querySelector('.informations .infoStatus').textContent = `${character.status}`;
     document.querySelector('.informations .infoSpecie').textContent = `${character.species}`;
+    document.querySelector('.informations .infoOrigin').textContent = `${origin.name}`;
+    document.querySelector('.informations .infoType').textContent = `${character.type}`;
+    document.querySelector('.informations .infoLocation').textContent = `${location.name}`;
+
+    const eps = await this.fetchAllData(episode);
+    eps.forEach(ep => {
+      document.querySelector('.episodes-wrapper').innerHTML += `
+        <div class="episodes">
+          <h4>${ep.episode}</h4>
+          <span class="ep-name">${ep.name}</span>
+          <span class="ep-data">${ep.air_date}</span>
+        </div>
+      `;
+    });
   }
 
   filterByName(data){
