@@ -4,6 +4,7 @@ import { Router } from "./Router.js";
 export class Characters extends Router{
   characters = [];
   locations = [];
+  episodes = [];
   constructor(){
     super();
     this.load();
@@ -31,6 +32,9 @@ export class Characters extends Router{
     });
 
     const elementsDetails = document.querySelectorAll('.card-personagem .personagem-img');
+
+    const calls = new CharactersView();
+    calls.charDetails(elementsDetails, data);
   }
 
   async fetchAllData(links){
@@ -96,10 +100,10 @@ export class CharactersView extends Characters{
 
     const elementsDetails = document.querySelectorAll('.card-personagem .personagem-img');
 
-    this.charDetails(elementsDetails);
+    this.charDetails(elementsDetails, characters);
   }
 
-  async charDetails(elementsDetails){
+  async charDetails(elementsDetails, data){
     elementsDetails.forEach(element => {
       element.addEventListener("click", async (e) => {
         const { parentNode } = e.target;
@@ -107,7 +111,7 @@ export class CharactersView extends Characters{
         const { nextElementSibling } = parentNode;
         const charName = nextElementSibling.querySelector('p').textContent;
 
-        const char = this.characters.find(char => char.name === charName);
+        const char = data.find(char => char.name === charName);
 
         Router.route(href, char);
       });
@@ -128,19 +132,20 @@ export class CharactersView extends Characters{
     document.querySelector('.informations .infoType').textContent = `${character.type}`;
     document.querySelector('.informations .infoLocation').textContent = `${location.name}`;
 
-    const loc = document.querySelector('#inforLocati');
-    loc.addEventListener("click", async (event) => {
+    const locate = document.querySelector('#inforLocati');
+    locate.addEventListener("click", async (event) => {
       if(event.target.tagName != "H4") {
         
       } else {
         const { textContent } = event.target.nextElementSibling;
         const loc = this.locations.find(element => element.name === textContent);
         const { residents } = loc;
+        //algumas vezes não vai funcionar pq o programa ainda não tem todos os locations disponíveis
         console.log(loc);
 
         Router.route("/locationsDetails", loc);
         const chars = await this.fetchAllData(residents);
-        this.updateResidents(chars);
+        this.updateResidents(chars, "/charDetails");
       }
     });
 
@@ -378,30 +383,6 @@ export class LocationsView extends Characters{
 }
 
 export class EpisodesView extends Characters{
-  static charEpisodes = [];
-
-  static async fetchData(link){
-    const respo = await fetch(link);
-    const data = await respo.json();
-    return data;
-  }
-
-  static async fetchAllData(links){
-    const promisses = links.map(link => this.fetchData(link));
-    const dataArray = await Promise.all(promisses);
-    this.charEpisodes = dataArray;
-    console.log(this.charEpisodes);
-    return dataArray;
-  }
-
-  async getCharacters(data, href){
-    const { characters } = data;
-    
-    const charConver = await this.fetchAllData(characters);
-  
-    this.updateResidents(charConver, href);
-  }
-
   async update(data){
     document.querySelector('.locationsEpisodes-content').innerHTML = '';
     data.forEach(episode => {
@@ -422,24 +403,26 @@ export class EpisodesView extends Characters{
 
   episodeDetails(data){
     data.forEach(element => {
-      element.addEventListener("click", (event) => {
+      element.addEventListener("click", async (event) => {
         const epName = event.target.textContent;
         const href = event.target.attributes.href.value;
         
-        const episode = EpisodesView.charEpisodes.find(ep => ep.name === epName);
+        const links = await Router.getEps();
+        this.episodes = await this.fetchAllData(links);
+        const episode = this.episodes.find(ep => ep.name === epName);
         
         Router.route(href, episode);
-        this.getCharacters(episode, href);
+        this.getCharacters(episode, "/charDetails");
       });
     });
   }
 
-  changeElementsDetails(data){
-    this.goBack("/episodes")
-
-    document.querySelector('.locationEpisode-name h2').textContent = `${data.name}`;
-    document.querySelector('.locationEpisode-type span').textContent = `${data.episode}`;
-    document.querySelector('.locationEpisode-dimension span').textContent = `${data.air_date}`;
+  async getCharacters(data, href){
+    const { characters } = data;
+    
+    this.characters = await this.fetchAllData(characters);
+  
+    this.updateResidents(this.characters, href);
   }
 
   filterByName(data){
@@ -452,5 +435,13 @@ export class EpisodesView extends Characters{
       console.log(epFilByName)
       this.update(epFilByName);
     });
+  }
+
+  changeElementsDetails(data){
+    this.goBack("/episodes")
+
+    document.querySelector('.locationEpisode-name h2').textContent = `${data.name}`;
+    document.querySelector('.locationEpisode-type span').textContent = `${data.episode}`;
+    document.querySelector('.locationEpisode-dimension span').textContent = `${data.air_date}`;
   }
 }

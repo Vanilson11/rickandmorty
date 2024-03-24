@@ -96,12 +96,14 @@ export class Router{
         document.querySelector('#app').innerHTML = '';
         document.querySelector('#app').innerHTML = html;
 
-        const links = await this.getEps();
+        const callEps = new Characters();
         const calls = new EpisodesView();
-        const episodes = await EpisodesView.fetchAllData(links);
+        
+        const links = await this.getEps();
+        const eps = await callEps.fetchAllData(links);
 
-        calls.update(episodes);
-        calls.filterByName(episodes);
+        calls.update(eps);
+        calls.filterByName(eps);
       });
     } else if(pathname === "/episodeDetails"){
       fetch(route).then(data => data.text()).then(html => {
