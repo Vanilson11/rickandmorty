@@ -16,8 +16,6 @@ export class Characters extends Router{
   }
 
   async updateResidents(data, href){
-    document.querySelector('.residentsCast-content').innerHTML = '';
-
     data.forEach(resident => {
       document.querySelector('.residentsCast-content').innerHTML += `
       <div class="card-personagem">
@@ -190,8 +188,6 @@ export class CharactersView extends Characters{
                data.status === valoresSelect.status 
       });
 
-      console.log(charactersFill)
-
       document.querySelector('#app .modal-filters').style.display = 'none';
       
       this.update(charactersFill);
@@ -224,14 +220,6 @@ export class LocationsView extends Characters{
   residentsData = [];
   location;
 
-  async filterLocation(data, href){
-    const { residents } = data;
-    
-    this.residentsData = await this.fetchAllData(residents);
-    console.log(this.residentsData)
-    this.updateResidents(this.residentsData, href);
-  }
-
   update(data){
     document.querySelector('.locationsEpisodes-content').innerHTML = '';
     data.forEach(location => {
@@ -263,6 +251,14 @@ export class LocationsView extends Characters{
     });
   }
 
+  async filterLocation(data, href){
+    const { residents } = data;
+    
+    this.residentsData = await this.fetchAllData(residents);
+    console.log(this.residentsData)
+    this.updateResidents(this.residentsData, href);
+  }
+
   static changeElementsDetails(data){
     const btn = new Characters();
     btn.goBack("/locations");
@@ -270,8 +266,6 @@ export class LocationsView extends Characters{
     document.querySelector('.locationEpisode-name h2').textContent = `${data.name}`;
     document.querySelector('.locationEpisode-type span').textContent = `${data.type}`;
     document.querySelector('.locationEpisode-dimension span').textContent = `${data.dimension}`;
-
-    
   }
 
   creatDataOptions(data){
@@ -364,10 +358,21 @@ export class LocationsView extends Characters{
     const form = document.querySelector('#formDesk');
 
     form.addEventListener("change", (e) => {
-      const termFill = e.target.dataset.fill;
-      const elementsFill = data.filter(data => data[termFill] === e.target.value);
+
+      const valoresSelect = {};
+
+      for(let element of form.elements){
+        if(element.tagName === 'SELECT') {
+          valoresSelect[element.dataset.fill] = element.value;
+        }
+      }
+
+      const locationsFill = data.filter(location => {
+        return location.type === valoresSelect.type &&
+               location.dimension === valoresSelect.dimension 
+      });
       
-      this.update(elementsFill);
+      this.update(locationsFill);
     });
   }
 }

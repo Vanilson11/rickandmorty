@@ -38,8 +38,6 @@ export class Router{
   static async handlePage(datas){
     const { pathname } = window.location;
     const route = this.routes[pathname];
-    console.log(pathname)
-    console.log(route)
 
     if(pathname === "/"){
       fetch(route).then(data => data.text()).then(async html => {
