@@ -78,10 +78,6 @@ export class Characters extends Router{
 
 //classe para manipular o HTML
 export class CharactersView extends Characters{
-  constructor(){
-    super();
-  }
-
   update(characters){
     console.log(characters);
     const cardsContainer = document.querySelector('.cards-wrapper .cards-content');
@@ -113,8 +109,7 @@ export class CharactersView extends Characters{
         const { nextElementSibling } = parentNode;
         const charName = nextElementSibling.querySelector('p').textContent;
 
-        const characters = await CharactersData.getCharacters();
-        const char = characters.find(char => char.name === charName);
+        const char = this.characters.find(char => char.name === charName);
 
         Router.route(href, char);
       });
@@ -122,9 +117,8 @@ export class CharactersView extends Characters{
   }
 
   async changeElementsDetails(character){
+    this.goBack("/");
     const { origin, location, episode } = character;
-    const btn = new Characters();
-    btn.goBack("/");
     
     document.querySelector('.details-img img').src = `${character.image}`;
     document.querySelector('.details-img img').alt = `Imagem de ${character.name}`;
@@ -206,12 +200,22 @@ export class CharactersView extends Characters{
 
   filterElementsDesk(data){
     const inSpecie = document.querySelector('#formDesk');
-
     inSpecie.addEventListener("change", (e) => {
-      const termFill = e.target.dataset.fill;
-      const elementsFill = data.filter(data => data[termFill] === e.target.value);
+      const valoresSelect = {};
+
+      for(let element of inSpecie.elements){
+        if(element.tagName === 'SELECT') {
+          valoresSelect[element.dataset.fill] = element.value;
+        }
+      }
+
+      const charactersFill = data.filter(data => {
+        return data.species === valoresSelect.species &&
+               data.gender === valoresSelect.gender &&
+               data.status === valoresSelect.status 
+      });
       
-      this.update(elementsFill);
+      this.update(charactersFill);
     });
   }
 }
