@@ -136,6 +136,22 @@ export class CharactersView extends Characters{
     document.querySelector('.informations .infoType').textContent = `${character.type}`;
     document.querySelector('.informations .infoLocation').textContent = `${location.name}`;
 
+    const loc = document.querySelector('#inforLocati');
+    loc.addEventListener("click", async (event) => {
+      if(event.target.tagName != "H4") {
+        
+      } else {
+        const { textContent } = event.target.nextElementSibling;
+        const loc = this.locations.find(element => element.name === textContent);
+        const { residents } = loc;
+        console.log(loc);
+
+        Router.route("/locationsDetails", loc);
+        const chars = await this.fetchAllData(residents);
+        this.updateResidents(chars);
+      }
+    });
+
     const eps = await this.fetchAllData(episode);
     eps.forEach(ep => {
       document.querySelector('.episodes-wrapper').innerHTML += `
@@ -202,26 +218,14 @@ export class CharactersView extends Characters{
 
 export class LocationsView extends Characters{
   residentsData = [];
-  static location;
+  location;
 
   async filterLocation(data, href){
     const { residents } = data;
     
     this.residentsData = await this.fetchAllData(residents);
+    console.log(this.residentsData)
     this.updateResidents(this.residentsData, href);
-  }
-
-  async fetchData(link){
-    const respo = await fetch(link);
-    const data = await respo.json();
-    return data;
-  }
-
-  async fetchAllData(links){
-    const promisses = links.map(link => this.fetchData(link));
-    const dataArray = await Promise.all(promisses);
-    console.log(dataArray)
-    return dataArray
   }
 
   update(data){
@@ -246,11 +250,11 @@ export class LocationsView extends Characters{
         const locationName = e.target.textContent;
         const href = e.target.attributes.href.value;
 
-        LocationsView.location = data.find(location => location.name === locationName);
+        this.location = data.find(location => location.name === locationName);
         
-        Router.route(href, LocationsView.location);
+        Router.route(href, this.location);
         
-        this.filterLocation(LocationsView.location, href);
+        this.filterLocation(this.location, href);
       });
     });
   }
@@ -262,6 +266,8 @@ export class LocationsView extends Characters{
     document.querySelector('.locationEpisode-name h2').textContent = `${data.name}`;
     document.querySelector('.locationEpisode-type span').textContent = `${data.type}`;
     document.querySelector('.locationEpisode-dimension span').textContent = `${data.dimension}`;
+
+    
   }
 
   creatDataOptions(data){
@@ -375,30 +381,16 @@ export class EpisodesView extends Characters{
     const promisses = links.map(link => this.fetchData(link));
     const dataArray = await Promise.all(promisses);
     this.charEpisodes = dataArray;
-    console.log(this.charEpisodes)
+    console.log(this.charEpisodes);
     return dataArray;
   }
 
   async getCharacters(data, href){
     const { characters } = data;
     
-    const charConver = await this.fetchAllEps(characters);
-    console.log(charConver);
+    const charConver = await this.fetchAllData(characters);
   
     this.updateResidents(charConver, href);
-  }
-
-  async fetchAllEps(links){
-    const promisses = links.map(link => this.fetchEp(link));
-    const dataArray = await Promise.all(promisses);
-    
-    return dataArray;
-  }
-
-  async fetchEp(link){
-    const respo = await fetch(link);
-    const data = await respo.json();
-    return data;
   }
 
   async update(data){

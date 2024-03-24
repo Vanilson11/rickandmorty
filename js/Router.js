@@ -82,7 +82,7 @@ export class Router{
         document.querySelector('#app').innerHTML = '';
         document.querySelector('#app').innerHTML = html;
 
-        LocationsView.changeElementsDetails(LocationsView.location);
+        LocationsView.changeElementsDetails(datas);
       });
     } else if(pathname === "/charDetails") {
       fetch(route).then(data => data.text()).then(async html => {
