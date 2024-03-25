@@ -16,7 +16,7 @@ export class Characters extends Router{
     this.locations = await CharactersData.getLocations();
   }
 
-  async updateResidents(data, href){
+  async updateResidents(data, href, hrefRaiz){
     data.forEach(resident => {
       document.querySelector('.residentsCast-content').innerHTML += `
       <div class="card-personagem">
@@ -34,7 +34,7 @@ export class Characters extends Router{
     const elementsDetails = document.querySelectorAll('.card-personagem .personagem-img');
 
     const calls = new CharactersView();
-    calls.charDetails(elementsDetails, data);
+    calls.charDetails(elementsDetails, data, hrefRaiz);
   }
 
   async fetchAllData(links){
@@ -100,10 +100,10 @@ export class CharactersView extends Characters{
 
     const elementsDetails = document.querySelectorAll('.card-personagem .personagem-img');
 
-    this.charDetails(elementsDetails, characters);
+    this.charDetails(elementsDetails, characters, "/");
   }
 
-  async charDetails(elementsDetails, data){
+  async charDetails(elementsDetails, data, hrefRaiz){
     elementsDetails.forEach(element => {
       element.addEventListener("click", async (e) => {
         const { parentNode } = e.target;
@@ -113,13 +113,13 @@ export class CharactersView extends Characters{
 
         const char = data.find(char => char.name === charName);
 
-        Router.route(href, char);
+        Router.route(href, char, hrefRaiz);
       });
     });
   }
 
-  async changeElementsDetails(character){
-    this.goBack("/");
+  async changeElementsDetails(character, hrefRaiz){
+    this.goBack(hrefRaiz);
     const { origin, location, episode } = character;
     
     document.querySelector('.details-img img').src = `${character.image}`;
@@ -143,9 +143,9 @@ export class CharactersView extends Characters{
         //algumas vezes não vai funcionar pq o programa ainda não tem todos os locations disponíveis
         console.log(loc);
 
-        Router.route("/locationsDetails", loc);
+        Router.route("/locationsDetails", loc, hrefRaiz);
         const chars = await this.fetchAllData(residents);
-        this.updateResidents(chars, "/charDetails");
+        this.updateResidents(chars, "/charDetails", hrefRaiz);
       }
     });
 
@@ -238,10 +238,10 @@ export class LocationsView extends Characters{
     });
 
     const elementsDetails = document.querySelectorAll('.locationEpisode-nome');
-    this.locationDetails(elementsDetails, data);
+    this.locationDetails(elementsDetails, data, "/locations");
   }
 
-  async locationDetails(elementsDetails, data){
+  async locationDetails(elementsDetails, data, hrefRaiz){
     elementsDetails.forEach(element => {
       element.addEventListener("click", async (e) => {
         const locationName = e.target.textContent;
@@ -249,24 +249,24 @@ export class LocationsView extends Characters{
 
         this.location = data.find(location => location.name === locationName);
         
-        Router.route(href, this.location);
+        Router.route(href, this.location, hrefRaiz);
         
-        this.filterLocation(this.location, href);
+        this.filterLocation(this.location, "/charDetails", hrefRaiz);
       });
     });
   }
 
-  async filterLocation(data, href){
+  async filterLocation(data, href, hrefRaiz){
     const { residents } = data;
     
     this.residentsData = await this.fetchAllData(residents);
-    console.log(this.residentsData)
-    this.updateResidents(this.residentsData, href);
+    console.log(this.residentsData);
+    this.updateResidents(this.residentsData, href, hrefRaiz);
   }
 
-  static changeElementsDetails(data){
+  static changeElementsDetails(data, hrefRaiz){
     const btn = new Characters();
-    btn.goBack("/locations");
+    btn.goBack(hrefRaiz);
     
     document.querySelector('.locationEpisode-name h2').textContent = `${data.name}`;
     document.querySelector('.locationEpisode-type span').textContent = `${data.type}`;
@@ -398,10 +398,10 @@ export class EpisodesView extends Characters{
     const elementsDetails = document.querySelectorAll('.locationEpisode-nome');
     
     Characters.creatDataOptions(data);
-    this.episodeDetails(elementsDetails);
+    this.episodeDetails(elementsDetails, "/episodes");
   }
 
-  episodeDetails(data){
+  episodeDetails(data, hrefRaiz){
     data.forEach(element => {
       element.addEventListener("click", async (event) => {
         const epName = event.target.textContent;
@@ -411,18 +411,18 @@ export class EpisodesView extends Characters{
         this.episodes = await this.fetchAllData(links);
         const episode = this.episodes.find(ep => ep.name === epName);
         
-        Router.route(href, episode);
-        this.getCharacters(episode, "/charDetails");
+        Router.route(href, episode, hrefRaiz);
+        this.getCharacters(episode, "/charDetails", hrefRaiz);
       });
     });
   }
 
-  async getCharacters(data, href){
+  async getCharacters(data, href, hrefRaiz){
     const { characters } = data;
     
     this.characters = await this.fetchAllData(characters);
   
-    this.updateResidents(this.characters, href);
+    this.updateResidents(this.characters, href, hrefRaiz);
   }
 
   filterByName(data){
@@ -437,8 +437,8 @@ export class EpisodesView extends Characters{
     });
   }
 
-  changeElementsDetails(data){
-    this.goBack("/episodes")
+  changeElementsDetails(data, hrefRaiz){
+    this.goBack(hrefRaiz)
 
     document.querySelector('.locationEpisode-name h2').textContent = `${data.name}`;
     document.querySelector('.locationEpisode-type span').textContent = `${data.episode}`;

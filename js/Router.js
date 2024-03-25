@@ -29,13 +29,13 @@ export class Router{
     this.routes[href] = link;
   }
 
-  static async route(href, datas){
+  static async route(href, datas, herefRaiz){
     window.history.pushState({}, "", href);
 
-    this.handlePage(datas);
+    this.handlePage(datas, herefRaiz);
   }
 
-  static async handlePage(datas){
+  static async handlePage(datas, herefRaiz){
     const { pathname } = window.location;
     const route = this.routes[pathname];
 
@@ -80,7 +80,7 @@ export class Router{
         document.querySelector('#app').innerHTML = '';
         document.querySelector('#app').innerHTML = html;
 
-        LocationsView.changeElementsDetails(datas);
+        LocationsView.changeElementsDetails(datas, herefRaiz);
       });
     } else if(pathname === "/charDetails") {
       fetch(route).then(data => data.text()).then(async html => {
@@ -89,7 +89,7 @@ export class Router{
 
         const calls = new CharactersView();
 
-        calls.changeElementsDetails(datas);
+        calls.changeElementsDetails(datas, herefRaiz);
       });
     } else if(pathname === "/episodes"){
       fetch(route).then(data => data.text()).then(async html => {
@@ -111,7 +111,7 @@ export class Router{
         document.querySelector('#app').innerHTML = html;
 
         const update = new EpisodesView();
-        update.changeElementsDetails(datas);
+        update.changeElementsDetails(datas, herefRaiz);
       })
     }
   }
