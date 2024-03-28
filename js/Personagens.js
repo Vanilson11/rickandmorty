@@ -8,6 +8,7 @@ export class Characters extends Router{
   constructor(){
     super();
     this.load();
+    this.clickNav()
   }
 
   async load(){
@@ -74,6 +75,18 @@ export class Characters extends Router{
     const btn = document.querySelector('.btn-go-back span');
     btn.addEventListener("click", () => {
       Router.route(href, null);
+    });
+  }
+
+  clickNav(){
+    const btnsLink = document.querySelectorAll('[data-link]');
+    btnsLink.forEach(btn => {
+      btn.addEventListener("click", (event) => {
+        event.preventDefault();
+        const { href } = event.target.attributes;
+        
+        Router.route(href.value, null);
+      });
     });
   }
 }
