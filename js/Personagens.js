@@ -8,7 +8,7 @@ export class Characters extends Router{
   constructor(){
     super();
     this.load();
-    this.clickNav()
+    //this.clickNav()
   }
 
   async load(){

@@ -1,5 +1,5 @@
 import "./toggleMenu.js";
-import { CharactersView } from "./Personagens.js";
+import { CharactersView, Characters } from "./Personagens.js";
 import { Router } from "./Router.js";
 
 //const route = new Router();
@@ -10,6 +10,8 @@ Router.addRoute("/locationsDetails", "/pages/locationsDetails.html");
 Router.addRoute("/episodes", "/pages/episodes.html");
 Router.addRoute("/episodeDetails", "/pages/episodeDetails.html")
 
+const teste = new Characters();
+teste.clickNav();
 new CharactersView("#app");
 
 //route.getData();
