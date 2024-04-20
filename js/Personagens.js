@@ -81,7 +81,7 @@ export class Characters extends Router{
     const btnsLink = document.querySelectorAll('[data-link]');
     btnsLink.forEach(btn => {
       btn.addEventListener("click", (event) => {
-        //event.preventDefault();
+        event.preventDefault();
         const { href } = event.target.attributes;
         
         Router.route(href.value, null);
