@@ -8,7 +8,6 @@ export class Characters extends Router{
   constructor(){
     super();
     this.load();
-    //this.clickNav()
   }
 
   async load(){
@@ -82,7 +81,7 @@ export class Characters extends Router{
     const btnsLink = document.querySelectorAll('[data-link]');
     btnsLink.forEach(btn => {
       btn.addEventListener("click", (event) => {
-        event.preventDefault();
+        //event.preventDefault();
         const { href } = event.target.attributes;
         
         Router.route(href.value, null);
@@ -91,7 +90,7 @@ export class Characters extends Router{
   }
 }
 
-//classe para manipular o HTML
+
 export class CharactersView extends Characters{
   update(characters){
     console.log(characters);
@@ -145,7 +144,8 @@ export class CharactersView extends Characters{
     document.querySelector('.informations .infoType').textContent = `${character.type}`;
     document.querySelector('.informations .infoLocation').textContent = `${location.name}`;
 
-    const locate = document.querySelector('#inforLocati');
+    //o código abaixo não está funcionando em produção
+    /*const locate = document.querySelector('#inforLocati');
     locate.addEventListener("click", async (event) => {
       if(event.target.tagName != "H4") {
         
@@ -160,7 +160,7 @@ export class CharactersView extends Characters{
         const chars = await this.fetchAllData(residents);
         this.updateResidents(chars, "/charDetails", hrefRaiz);
       }
-    });
+    });*/
 
     const eps = await this.fetchAllData(episode);
     eps.forEach(ep => {
@@ -273,7 +273,7 @@ export class LocationsView extends Characters{
     const { residents } = data;
     
     this.residentsData = await this.fetchAllData(residents);
-    console.log(this.residentsData);
+    
     this.updateResidents(this.residentsData, href, hrefRaiz);
   }
 
@@ -445,13 +445,13 @@ export class EpisodesView extends Characters{
       const episodeName = e.target.value;
 
       const epFilByName = data.filter(episode => episode.name === episodeName);
-      console.log(epFilByName)
+      
       this.update(epFilByName);
     });
   }
 
   changeElementsDetails(data, hrefRaiz){
-    this.goBack(hrefRaiz)
+    this.goBack(hrefRaiz);
 
     document.querySelector('.locationEpisode-name h2').textContent = `${data.name}`;
     document.querySelector('.locationEpisode-type span').textContent = `${data.episode}`;
